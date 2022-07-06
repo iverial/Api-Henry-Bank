@@ -7,6 +7,7 @@ module.exports = sequelize => {
       id: {
         type: DataTypes.STRING,
         primaryKey: true,
+        unique: true,
       },
       balance: {
         type: DataTypes.INTEGER,
