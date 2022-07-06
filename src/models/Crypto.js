@@ -1,17 +1,33 @@
 const { DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
-  sequelize.define(
-    'nombreTabla',
-    {
-      name: {
-        type: DataTypes.STRING,
-        primaryKey: true,
-      },
+  sequelize.define('nombreTabla', {
+    hash: {
+      type: DataTypes.STRING,
+      primaryKey: true,
+      allowNull: false,
+      unique: true,
     },
-    {
-      createdAt: false,
-      updatedAt: false,
-    }
-  );
+    balance: {
+      type: DataTypes.DECIMAL,
+      allowNull: false,
+      defaultValue: 0,
+    },
+    buyPrice: {
+      type: DataTypes.DECIMAL,
+      allowNull: false,
+      defaultValue: 0,
+    },
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+    },
+
+    simbol: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+    },
+  });
 };
