@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
-  sequelize.define('nombreTabla', {
+  sequelize.define('crypto', {
     hash: {
       type: DataTypes.STRING,
       primaryKey: true,
