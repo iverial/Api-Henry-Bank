@@ -2,7 +2,7 @@ const { DataTypes } = require('sequelize');
 
 module.exports = sequelize => {
   sequelize.define(
-    'Stock',
+    'nombreTabla',
     {
       id: {
         type: DataTypes.STRING,
@@ -12,10 +12,6 @@ module.exports = sequelize => {
         type: DataTypes.INTEGER,
       },
       buy_price: {
-        type: DataTypes.STRING,
-        primaryKey: true,
-      },
-      name: {
         type: DataTypes.STRING,
         primaryKey: true,
       },
