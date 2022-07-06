@@ -1,5 +1,5 @@
 module.exports = (sequelize) => {
-  sequelize.define('investTransaction', {
+  sequelize.define('InvestTransaction', {
     id: {
       type: sequelize.UUID,
       primaryKey: true,
