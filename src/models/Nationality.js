@@ -1,27 +1,20 @@
 const { DataTypes } = require('sequelize');
 
-module.exports = sequelize => {
+module.exports = (sequelize) => {
   sequelize.define(
-    'Stock',
+    'Nationality',
     {
-      id: {
-        type: DataTypes.STRING,
-        primaryKey: true,
-      },
-      balance: {
+     id:{
         type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+        allowNull: false,
       },
-      buy_price: {
+     name: {
         type: DataTypes.STRING,
+        allowNull: false,
         primaryKey: true,
       },
-      name: {
-        type: DataTypes.STRING,
-        primaryKey: true,
-      },
-      symbol: {
-        type: DataTypes.STRING,
-      }
     },
     {
       createdAt: false,
