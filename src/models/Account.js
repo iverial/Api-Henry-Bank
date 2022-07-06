@@ -4,9 +4,14 @@ module.exports = (sequelize) => {
   sequelize.define(
     'Account',
     {
-      name: {
-        type: DataTypes.STRING,
+      id:{
         primaryKey: true,
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        unique: true, 
+      },
+      cbu: {
+        type: DataTypes.STRING,
         allowNull: false,
         unique: true,
       },

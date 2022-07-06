@@ -7,6 +7,7 @@ module.exports = sequelize => {
       id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
+        unique: true,
       },
       ror: {
         type: DataTypes.INTEGER,

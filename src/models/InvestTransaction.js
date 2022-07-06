@@ -1,27 +1,30 @@
+const { DataTypes } = require('sequelize');
+
 module.exports = (sequelize) => {
   sequelize.define('InvestTransaction', {
     id: {
-      type: sequelize.UUID,
+      type: DataTypes.UUID,
       primaryKey: true,
-      defaultValue: sequelize.UUIDV4,
+      defaultValue: DataTypes.UUIDV4,
+      unique: true,
     },
     date: {
-      type: sequelize.DATE,
+      type: DataTypes.DATE,
       allowNull: false,
     },
     type: {
-      type: sequelize.STRING,
+      type: DataTypes.STRING,
       allowNull: false,
       defaultValue: 'buy',
     },
     amount: {
-      type: sequelize.DECIMAL,
+      type: DataTypes.DECIMAL,
       allowNull: false,
       defaultValue: 0,
     },
 
     amount_invested: {
-      type: sequelize.DECIMAL,
+      type: DataTypes.DECIMAL,
       allowNull: false,
       defaultValue: 0,
     },
