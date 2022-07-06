@@ -67,6 +67,8 @@ Crypto.belongsToMany(Account, {through: 'Account_Crypto'})
 Account.belongsToMany(Stock, {through: 'Account_Stock'})
 Stock.belongsToMany(Account, {through: 'Account_Stock'})
 
+//relaciones 
+
 
 
 
