@@ -6,6 +6,7 @@ module.exports = (sequelize) => {
     {
       id: {
         type: DataTypes.UUIDV4,
+        allowNull: false,
       },
       dni:{
         type: DataTypes.INTEGER,
@@ -13,22 +14,24 @@ module.exports = (sequelize) => {
       name: {
         type: DataTypes.STRING,
         primaryKey: true,
+        allowNull: false,
       },
       lastname: {
         type: DataTypes.STRING,
+        allowNull: false,
       },
       dateOfBirth: {
         type: DataTypes.DATE,
+        allowNull: false,
       },
       email:{
         type: DataTypes.STRING,
+        allowNull: false,
       },
       password:{
         type: DataTypes.STRING,
+        allowNull: false,
       },
-      pin:{
-        type: DataTypes.INTEGER,
-      }
     },
     {
       createdAt: false,
