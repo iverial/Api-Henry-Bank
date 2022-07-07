@@ -11,7 +11,7 @@ module.exports = (sequelize) => {
         allowNull: false,
         unique: true,
       },
-      dni:{
+      dni: {
         type: DataTypes.INTEGER,
       },
       name: {
@@ -26,11 +26,19 @@ module.exports = (sequelize) => {
         type: DataTypes.DATE,
         allowNull: false,
       },
-      email:{
+      adress: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      password:{
+      city: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      email: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      password: {
         type: DataTypes.STRING,
         allowNull: false,
       },
