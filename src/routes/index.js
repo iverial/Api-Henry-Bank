@@ -19,6 +19,7 @@
 // module.exports = router;
 
 const { Router } = require('express');
+const passport = require('passport');
 const router = Router();
 
 // Importar todos los routers;
@@ -35,5 +36,19 @@ const registerRouter = require('./register.router.js');
 
 router.use('/login', loginRouter);
 router.use('/register', registerRouter);
+
+// Ejemplo ruta protegida con Passport
+// router.get(
+//   '/private',
+//   passport.authenticate('jwt', { session: false }),
+//   (req, res) => {
+//     res.send({
+//       user: {
+//         email: req.user.email,
+//         user: req.user,
+//       },
+//     });
+//   }
+// );
 
 module.exports = router;
