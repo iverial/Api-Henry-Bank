@@ -27,6 +27,7 @@ const router = Router();
 
 const loginRouter = require('./login.router.js');
 const registerRouter = require('./register.router.js');
+const userRouter = require('./user.router.js');
 
 // const temperamentsRouter = require('./temperamentsRouter/router.js');
 
@@ -35,5 +36,6 @@ const registerRouter = require('./register.router.js');
 
 router.use('/login', loginRouter);
 router.use('/register', registerRouter);
+router.use('/user', userRouter);
 
 module.exports = router;
