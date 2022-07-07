@@ -28,6 +28,7 @@ const router = Router();
 const loginRouter = require('./login.router.js');
 const registerRouter = require('./register.router.js');
 const userRouter = require('./user.router.js');
+const cryptoRouter = require('./crypto.router.js');
 
 // const temperamentsRouter = require('./temperamentsRouter/router.js');
 
@@ -37,5 +38,6 @@ const userRouter = require('./user.router.js');
 router.use('/login', loginRouter);
 router.use('/register', registerRouter);
 router.use('/user', userRouter);
+router.use('/crypto', cryptoRouter);
 
 module.exports = router;
