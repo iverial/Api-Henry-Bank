@@ -1,14 +1,3 @@
-// const { Router } = require('express');
-// const router = Router();
-
-// // Importar todos los routers;
-// // Ejemplo: const authRouter = require('./auth.js');
-
-// const loginRouter = require('./loginRouter.js');
-
-// // Configurar los routers
-// // Ejemplo: router.use('/auth', authRouter);
-
 // // POST /Register
 // // POST /Login
 
@@ -30,17 +19,21 @@
 // module.exports = router;
 
 const { Router } = require('express');
+const router = Router();
+
 // Importar todos los routers;
 // Ejemplo: const authRouter = require('./auth.js');
-const loginRouter = require('./loginRouter.js');
-// const temperamentsRouter = require('./temperamentsRouter/router.js');
+// const authRouter = require('./auth.js');
 
-const router = Router();
+const loginRouter = require('./login.router.js');
+const registerRouter = require('./register.router.js');
+
+// const temperamentsRouter = require('./temperamentsRouter/router.js');
 
 // Configurar los routers
 // Ejemplo: router.use('/auth', authRouter);
 
 router.use('/login', loginRouter);
-// router.use('/temperaments', temperamentsRouter);
+router.use('/register', registerRouter);
 
 module.exports = router;
