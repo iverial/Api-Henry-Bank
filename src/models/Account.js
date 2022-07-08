@@ -4,11 +4,11 @@ module.exports = (sequelize) => {
   sequelize.define(
     'Account',
     {
-      id:{
+      id: {
         primaryKey: true,
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
-        unique: true, 
+        unique: true,
       },
       cbu: {
         type: DataTypes.STRING,
@@ -34,7 +34,7 @@ module.exports = (sequelize) => {
       risk: {
         type: DataTypes.STRING,
         allowNull: false,
-        defaultValue: 'low',
+        defaultValue: '',
       },
     },
     {

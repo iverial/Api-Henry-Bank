@@ -19,18 +19,18 @@ const modelDefiners = [];
 
 fs.readdirSync(path.join(__dirname, '/models'))
   .filter(
-    file =>
+    (file) =>
       file.indexOf('.') !== 0 && file !== basename && file.slice(-3) === '.js'
   )
-  .forEach(file => {
+  .forEach((file) => {
     modelDefiners.push(require(path.join(__dirname, '/models', file)));
   });
 
 // Injectamos la conexion (sequelize) a todos los modelos
-modelDefiners.forEach(model => model(sequelize));
+modelDefiners.forEach((model) => model(sequelize));
 // Capitalizamos los nombres de los modelos ie: product => Product
 let entries = Object.entries(sequelize.models);
-let capsEntries = entries.map(entry => [
+let capsEntries = entries.map((entry) => [
   entry[0][0].toUpperCase() + entry[0].slice(1),
   entry[1],
 ]);
@@ -41,12 +41,13 @@ sequelize.models = Object.fromEntries(capsEntries);
 
 const { Account, Crypto, InvestTransaction, LockedStake, Nationality, User, Transaction, Stock, SavingAccount } = sequelize.models;
 
+
 //User -- Nationality
-User.hasMany(Nationality)
-Nationality.belongsTo(User)
+User.hasMany(Nationality);
+Nationality.belongsTo(User);
 // User -- Account
-User.hasOne(Account)
-Account.belongsTo(User)
+User.hasOne(Account);
+Account.belongsTo(User);
 
 //relaciones 
 Account.hasOne(SavingAccount)
@@ -67,8 +68,6 @@ LockedStake.belongsTo(SavingAccount)
 // LockedStake --- SavingAccount
 LockedStake.hasMany(SavingAccount)
 SavingAccount.belongsTo(LockedStake)
-
-
 
 
 
