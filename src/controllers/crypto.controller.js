@@ -1,21 +1,21 @@
 const axios = require('axios');
 
 const cryptoList = [
+  'huobi-btc',
+  'wrapped-bitcoin',
   'bitcoin',
+  'pax-gold',
+  'tether-gold',
   'ethereum',
-  'tether',
-  'usd-coin',
+  'staked-ether',
+  'maker',
   'binancecoin',
-  'binance-usd',
-  'ripple',
-  'cardano',
-  'solana',
-  'dogecoin',
+  'monero',
 ];
 
 const allCryptos = async () => {
   const allCryptos = await Promise.all(
-    cryptoList.map(async (crypto) => {
+    cryptoList.map(async crypto => {
       const response = await axios.get(
         `https://api.coingecko.com/api/v3/coins/${crypto}?localization=false&tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false`
       );
