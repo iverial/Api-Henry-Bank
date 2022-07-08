@@ -19,6 +19,7 @@
 // module.exports = router;
 
 const { Router } = require('express');
+const passport = require('passport');
 const router = Router();
 
 // Importar todos los routers;
@@ -29,6 +30,8 @@ const loginRouter = require('./login.router.js');
 const registerRouter = require('./register.router.js');
 const userRouter = require('./user.router.js');
 const lockedStake = require('./lockedStake.router.js')
+const cryptoRouter = require('./crypto.router.js');
+
 
 // const temperamentsRouter = require('./temperamentsRouter/router.js');
 
@@ -37,7 +40,17 @@ const lockedStake = require('./lockedStake.router.js')
 
 router.use('/login', loginRouter);
 router.use('/register', registerRouter);
-router.use('/user', userRouter);
-router.use('/lockedStake', lockedStake)
+router.use(
+  '/user',
+  passport.authenticate('jwt', { session: false }),
+  userRouter
+);
+router.use(
+  '/crypto',
+  passport.authenticate('jwt', { session: false }),
+  cryptoRouter
+router.use('/lockedStake',  
+passport.authenticate('jwt', { session: false }), 
+lockedStake);
 
 module.exports = router;
