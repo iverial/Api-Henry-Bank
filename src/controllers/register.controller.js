@@ -6,23 +6,34 @@ const jwt = require('jsonwebtoken');
 // Register Method for the User
 //############################################################################################
 const register = async (req, res) => {
-  let { dni, name, lastname, dateOfBirth, email, city, adress } = req.body;
+  let {
+    identity,
+    name,
+    lastName,
+    dateOfBirth,
+    gender,
+    email,
+    city,
+    address,
+    nationality,
+  } = req.body;
   let password = hashSync(req.body.password, 10);
 
   const [user, created] = await User.findOrCreate({
     where: {
-      dni,
+      identity,
       email,
     },
     defaults: {
-      dni,
+      identity,
       name,
-      lastname,
+      lastName,
       dateOfBirth,
+      gender,
       email,
       password,
       city,
-      adress,
+      address,
     },
   });
 
