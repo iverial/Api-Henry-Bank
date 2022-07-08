@@ -19,9 +19,6 @@ module.exports = sequelize => {
       deposit: {
         type: DataTypes.INTEGER,
       },
-      start_date: {
-        type: DataTypes.STRING,
-      },
       end_date: {
         type: DataTypes.STRING,
       },
@@ -29,5 +26,10 @@ module.exports = sequelize => {
         type: DataTypes.STRING,
       },
     },
+    {
+      timestamp: true,
+      createdAt: 'start_date',
+      updatedAt: false,
+    }
   );
 };
