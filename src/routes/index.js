@@ -38,21 +38,15 @@ const cryptoRouter = require('./crypto.router.js');
 
 router.use('/login', loginRouter);
 router.use('/register', registerRouter);
-router.use('/user', userRouter);
-router.use('/crypto', cryptoRouter);
-
-// Ejemplo ruta protegida con Passport
-// router.get(
-//   '/private',
-//   passport.authenticate('jwt', { session: false }),
-//   (req, res) => {
-//     res.send({
-//       user: {
-//         email: req.user.email,
-//         user: req.user,
-//       },
-//     });
-//   }
-// );
+router.use(
+  '/user',
+  passport.authenticate('jwt', { session: false }),
+  userRouter
+);
+router.use(
+  '/crypto',
+  passport.authenticate('jwt', { session: false }),
+  cryptoRouter
+);
 
 module.exports = router;

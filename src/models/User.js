@@ -11,22 +11,26 @@ module.exports = (sequelize) => {
         allowNull: false,
         unique: true,
       },
-      dni: {
+      identity: {
         type: DataTypes.INTEGER,
       },
       name: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      lastname: {
+      lastName: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      gender: {
         type: DataTypes.STRING,
         allowNull: false,
       },
       dateOfBirth: {
-        type: DataTypes.DATE,
+        type: DataTypes.STRING,
         allowNull: false,
       },
-      adress: {
+      address: {
         type: DataTypes.STRING,
         allowNull: false,
       },
