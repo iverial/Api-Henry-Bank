@@ -8,29 +8,26 @@ module.exports = sequelize => {
         type: DataTypes.INTEGER,
         primaryKey: true,
         unique: true,
+        autoincrement: true,
       },
-      ror: {
-        type: DataTypes.INTEGER,
+      roi: {
+        type: DataTypes.STRING,
       },
       parking: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
       },
       deposit: {
         type: DataTypes.INTEGER,
       },
       start_date: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
       },
       end_date: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
       },
       name: {
         type: DataTypes.STRING,
       },
     },
-    {
-      createdAt: false,
-      updatedAt: false,
-    }
   );
 };
