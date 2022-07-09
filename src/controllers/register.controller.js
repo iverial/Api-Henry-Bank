@@ -54,13 +54,17 @@ const register = async (req, res) => {
     },
   });
 
+
+
+
   if (created) {
     let account = await Account.create({
       cbu: generateCBU(),
       alias: generateAlias(email),
+      name: name,
+      lastName: lastName,
       balance: 0,
-      contacts: [],
-      risk: '',
+      contacts: email,
     });
 
     const [nation, created] = await Nationality.findOrCreate({
