@@ -19,18 +19,18 @@ const modelDefiners = [];
 
 fs.readdirSync(path.join(__dirname, '/models'))
   .filter(
-    (file) =>
+    file =>
       file.indexOf('.') !== 0 && file !== basename && file.slice(-3) === '.js'
   )
-  .forEach((file) => {
+  .forEach(file => {
     modelDefiners.push(require(path.join(__dirname, '/models', file)));
   });
 
 // Injectamos la conexion (sequelize) a todos los modelos
-modelDefiners.forEach((model) => model(sequelize));
+modelDefiners.forEach(model => model(sequelize));
 // Capitalizamos los nombres de los modelos ie: product => Product
 let entries = Object.entries(sequelize.models);
-let capsEntries = entries.map((entry) => [
+let capsEntries = entries.map(entry => [
   entry[0][0].toUpperCase() + entry[0].slice(1),
   entry[1],
 ]);
@@ -39,37 +39,44 @@ sequelize.models = Object.fromEntries(capsEntries);
 // En sequelize.models están todos los modelos importados como propiedades
 // Para relacionarlos hacemos un destructuring
 
-const { Account, Crypto, InvestTransaction, LockedStake, Nationality, User, Transaction, Stock, SavingAccount } = sequelize.models;
-
+const {
+  Account,
+  Crypto,
+  InvestTransaction,
+  LockedStake,
+  Nationality,
+  User,
+  Transaction,
+  Stock,
+  SavingAccount,
+} = sequelize.models;
 
 //User -- Nationality
-User.hasMany(Nationality);
-Nationality.belongsTo(User);
+Nationality.hasMany(User);
+User.belongsTo(Nationality);
 // User -- Account
 User.hasOne(Account);
 Account.belongsTo(User);
 
-//relaciones 
-Account.hasOne(SavingAccount)
-SavingAccount.belongsTo(Account)
+//relaciones
+Account.hasOne(SavingAccount);
+SavingAccount.belongsTo(Account);
 
-//SavingAccount --- Crypto 
-SavingAccount.belongsToMany(Crypto, {through: 'SavingAccount_Crypto'})
-Crypto.belongsToMany(SavingAccount, {through: 'SavingAccount_Crypto'})
+//SavingAccount --- Crypto
+SavingAccount.belongsToMany(Crypto, { through: 'SavingAccount_Crypto' });
+Crypto.belongsToMany(SavingAccount, { through: 'SavingAccount_Crypto' });
 
 //SavingAccount --- Stock
-SavingAccount.belongsToMany(Stock, {through: 'SavingAccount_Stock'})
-Stock.belongsToMany(SavingAccount, {through: 'SavingAccount_Stock'})
+SavingAccount.belongsToMany(Stock, { through: 'SavingAccount_Stock' });
+Stock.belongsToMany(SavingAccount, { through: 'SavingAccount_Stock' });
 
-// SavingAccount --- LockedStake 
-SavingAccount.hasOne(LockedStake)
-LockedStake.belongsTo(SavingAccount)
+// SavingAccount --- LockedStake
+SavingAccount.hasOne(LockedStake);
+LockedStake.belongsTo(SavingAccount);
 
 // LockedStake --- SavingAccount
-LockedStake.hasMany(SavingAccount)
-SavingAccount.belongsTo(LockedStake)
-
-
+LockedStake.hasMany(SavingAccount);
+SavingAccount.belongsTo(LockedStake);
 
 // Aca vendrian las relaciones
 // Product.hasMany(Reviews);
