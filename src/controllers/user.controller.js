@@ -2,7 +2,7 @@ const { User } = require('../db.js');
 
 const allUsers = async id => {
   if (id) {
-    const user = await User.findAll({ where: { id: id } });
+    const user = await User.findOne({ where: { id: id } });
 
     return user;
   }
