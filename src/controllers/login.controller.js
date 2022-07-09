@@ -21,7 +21,7 @@ const login = async (req, res) => {
       password: user.password,
     };
 
-    const token = jwt.sign(payload, SECRET, { expiresIn: '1d' });
+    const token = jwt.sign(payload, SECRET, { expiresIn: '2d' });
 
     res.send({ msg: 'Login correcto', token: 'Bearer ' + token });
   }
