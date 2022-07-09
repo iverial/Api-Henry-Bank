@@ -39,38 +39,44 @@ sequelize.models = Object.fromEntries(capsEntries);
 // En sequelize.models están todos los modelos importados como propiedades
 // Para relacionarlos hacemos un destructuring
 
-const { Account, Crypto, InvestTransaction, LockedStake, Nationality, User, Transaction, Stock } = sequelize.models;
+const {
+  Account,
+  Crypto,
+  InvestTransaction,
+  LockedStake,
+  Nationality,
+  User,
+  Transaction,
+  Stock,
+  SavingAccount,
+} = sequelize.models;
 
 //User -- Nationality
-User.hasMany(Nationality)
-Nationality.belongsTo(User)
+Nationality.hasMany(User);
+User.belongsTo(Nationality);
 // User -- Account
-User.hasOne(Account)
-Account.belongsTo(User)
+User.hasOne(Account);
+Account.belongsTo(User);
 
-// Account.belongsToMany(Account ,{as: 'CBU_REMITENTE', foreignKey: 'id',  through: 'Transaction'})
-// Account.belongsToMany(Account ,{as: 'CBU_RECEPTOR', foreignKey: 'id',  through: 'Transaction'})
+//relaciones
+Account.hasOne(SavingAccount);
+SavingAccount.belongsTo(Account);
 
-// LockedStake --- Account
-LockedStake.hasMany(Account)
-Account.belongsTo(LockedStake)
+//SavingAccount --- Crypto
+SavingAccount.belongsToMany(Crypto, { through: 'SavingAccount_Crypto' });
+Crypto.belongsToMany(SavingAccount, { through: 'SavingAccount_Crypto' });
 
-// Account --- LockedStake
-Account.hasOne(LockedStake)
-LockedStake.belongsTo(Account)
+//SavingAccount --- Stock
+SavingAccount.belongsToMany(Stock, { through: 'SavingAccount_Stock' });
+Stock.belongsToMany(SavingAccount, { through: 'SavingAccount_Stock' });
 
-// Account --- Crypto
-Account.belongsToMany(Crypto, {through: 'Account_Crypto'})
-Crypto.belongsToMany(Account, {through: 'Account_Crypto'})
+// SavingAccount --- LockedStake
+SavingAccount.hasOne(LockedStake);
+LockedStake.belongsTo(SavingAccount);
 
-// Account --- Stock
-Account.belongsToMany(Stock, {through: 'Account_Stock'})
-Stock.belongsToMany(Account, {through: 'Account_Stock'})
-
-//relaciones 
-
-
-
+// LockedStake --- SavingAccount
+LockedStake.hasMany(SavingAccount);
+SavingAccount.belongsTo(LockedStake);
 
 // Aca vendrian las relaciones
 // Product.hasMany(Reviews);

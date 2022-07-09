@@ -1,14 +1,3 @@
-// const { Router } = require('express');
-// const router = Router();
-
-// // Importar todos los routers;
-// // Ejemplo: const authRouter = require('./auth.js');
-
-// const loginRouter = require('./loginRouter.js');
-
-// // Configurar los routers
-// // Ejemplo: router.use('/auth', authRouter);
-
 // // POST /Register
 // // POST /Login
 
@@ -30,19 +19,40 @@
 // module.exports = router;
 
 const { Router } = require('express');
+const passport = require('passport');
+const router = Router();
+
 // Importar todos los routers;
 // Ejemplo: const authRouter = require('./auth.js');
-const loginRouter = require('./loginRouter.js');
-const userRouter = require('./user.router.js');
-// const temperamentsRouter = require('./temperamentsRouter/router.js');
+// const authRouter = require('./auth.js');
 
-const router = Router();
+const loginRouter = require('./login.router.js');
+const registerRouter = require('./register.router.js');
+const userRouter = require('./user.router.js');
+const lockedStake = require('./lockedStake.router.js');
+const cryptoRouter = require('./crypto.router.js');
+
+// const temperamentsRouter = require('./temperamentsRouter/router.js');
 
 // Configurar los routers
 // Ejemplo: router.use('/auth', authRouter);
 
 router.use('/login', loginRouter);
-router.use('/user', userRouter);
-// router.use('/temperaments', temperamentsRouter);
+router.use('/register', registerRouter);
+router.use(
+  '/user',
+  passport.authenticate('jwt', { session: false }),
+  userRouter
+);
+router.use(
+  '/crypto',
+  passport.authenticate('jwt', { session: false }),
+  cryptoRouter
+);
+router.use(
+  '/lockedStake',
+  passport.authenticate('jwt', { session: false }),
+  lockedStake
+);
 
 module.exports = router;
