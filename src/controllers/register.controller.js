@@ -14,7 +14,7 @@ const generateCBU = () => {
   return cbu;
 };
 
-let generateAlias = (email) => {
+let generateAlias = email => {
   let alias = email.split('@')[0] + '.henrybank';
   return alias;
 };
@@ -63,14 +63,20 @@ const register = async (req, res) => {
       risk: '',
     });
 
-    let national = await Nationality.findOrCreate({
-      where: { name: nationality.toLowerCase() },
+    const [nation, created] = await Nationality.findOrCreate({
+      where: { name: nationality },
       defaults: {
-        name: nationality.toLowerCase(),
+        name: nationality,
       },
     });
 
-    res.send({ msg: 'Usuario y cuenta creados', email: user.email, account });
+    nation.addUser(user);
+
+    res.send({
+      msg: 'Usuario y cuenta creados',
+      email: user.email,
+      account,
+    });
   } else {
     res.send({ msg: 'Usuario ya existe', email: user.email });
   }
