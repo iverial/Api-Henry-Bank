@@ -1,6 +1,6 @@
 const { DataTypes } = require('sequelize');
 
-module.exports = (sequelize) => {
+module.exports = sequelize => {
   sequelize.define(
     'User',
     {
@@ -10,6 +10,11 @@ module.exports = (sequelize) => {
         defaultValue: DataTypes.UUIDV4,
         allowNull: false,
         unique: true,
+      },
+      image: {
+        type: DataTypes.STRING,
+        defaultValue:
+          'https://cdn.pixabay.com/photo/2020/07/14/13/07/icon-5404125_1280.png',
       },
       identity: {
         type: DataTypes.INTEGER,
