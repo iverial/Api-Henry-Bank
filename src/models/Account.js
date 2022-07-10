@@ -23,20 +23,31 @@ module.exports = (sequelize) => {
       name: {
         type: DataTypes.STRING,
         allowNull: false,
+        validate: {
+          len: [4, 16]
+        }
       },
       lastName: {
         type: DataTypes.STRING,
         allowNull: false,
+        validate: {
+          len: [4, 16]
+        }
       },
       contacts: {
         type: DataTypes.JSON,
         allowNull: false,
-        defaultValue: [],
+        validate:{
+          isEmail : true
+      }
       },
       balance: {
         type: DataTypes.DECIMAL,
         allowNull: false,
         defaultValue: 0,
+        validate: {
+          min: 0,
+        }
       },
     },
     {
