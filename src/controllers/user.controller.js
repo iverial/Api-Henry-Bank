@@ -33,7 +33,7 @@ detailUser = async detail => {
 module.exports = {
   user: async (req, res) => {
     try {
-      const users = await allUsers(id);
+      const users = await allUsers();
       res.status(200).json(users);
     } catch (error) {
       res.status(404).json({ error: error.message });
