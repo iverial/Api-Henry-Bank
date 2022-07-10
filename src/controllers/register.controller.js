@@ -54,9 +54,6 @@ const register = async (req, res) => {
     },
   });
 
-
-
-
   if (created) {
     const account = await Account.create({
       cbu: generateCBU(),
@@ -83,8 +80,6 @@ const register = async (req, res) => {
     });
 
     account.setSavingAccount(savingAccount);
-
-
 
     res.send({
       msg: 'Usuario y cuenta creados',
