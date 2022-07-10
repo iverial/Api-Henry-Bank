@@ -22,10 +22,16 @@ module.exports = sequelize => {
       name: {
         type: DataTypes.STRING,
         allowNull: false,
+        validate: {
+          len: [4, 16]
+        }
       },
       lastName: {
         type: DataTypes.STRING,
         allowNull: false,
+        validate: {
+          len: [4, 16]
+        }
       },
       gender: {
         type: DataTypes.STRING,
@@ -46,6 +52,9 @@ module.exports = sequelize => {
       email: {
         type: DataTypes.STRING,
         allowNull: false,
+        validate:{
+          isEmail : true
+      }
       },
       password: {
         type: DataTypes.STRING,
