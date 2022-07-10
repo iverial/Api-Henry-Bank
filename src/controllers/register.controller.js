@@ -1,5 +1,5 @@
 const { hashSync, compareSync } = require('bcrypt');
-const { User, Account, Nationality } = require('../db.js');
+const { User, Account, Nationality, SavingAccount } = require('../db.js');
 const jwt = require('jsonwebtoken');
 
 // ############################################################################################
@@ -54,14 +54,19 @@ const register = async (req, res) => {
     },
   });
 
+
+
+
   if (created) {
-    let account = await Account.create({
+    const account = await Account.create({
       cbu: generateCBU(),
       alias: generateAlias(email),
+      name: name,
+      lastName: lastName,
       balance: 0,
-      contacts: [],
-      risk: '',
+      contacts: email,
     });
+    account.setUser(user);
 
     const [nation, created] = await Nationality.findOrCreate({
       where: { name: nationality },
@@ -71,6 +76,15 @@ const register = async (req, res) => {
     });
 
     nation.addUser(user);
+
+    const savingAccount = await SavingAccount.create({
+      ars: 0,
+      usd: 0,
+    });
+
+    account.setSavingAccount(savingAccount);
+
+
 
     res.send({
       msg: 'Usuario y cuenta creados',
