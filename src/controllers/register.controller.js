@@ -52,7 +52,7 @@ const register = async (req, res) => {
       password,
       city,
       address,
-    });
+     });
 
     const account = await Account.create({
       cbu: generateCBU(),
