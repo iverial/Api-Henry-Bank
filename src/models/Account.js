@@ -5,36 +5,49 @@ module.exports = (sequelize) => {
     'Account',
     {
       id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
         primaryKey: true,
-        type: DataTypes.UUID,
-        defaultValue: DataTypes.UUIDV4,
-        unique: true,
+        allowNull: false,
       },
       cbu: {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true,
       },
-      balance: {
-        type: DataTypes.DECIMAL,
-        allowNull: false,
-        defaultValue: 0,
-      },
       alias: {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true,
       },
+      name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          len: [4, 16]
+        }
+      },
+      lastName: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          len: [4, 16]
+        }
+      },
       contacts: {
         type: DataTypes.JSON,
         allowNull: false,
-        defaultValue: [],
+        validate:{
+          isEmail : true
+      }
       },
-
-      risk: {
-        type: DataTypes.STRING,
+      balance: {
+        type: DataTypes.DECIMAL,
         allowNull: false,
-        defaultValue: '',
+        defaultValue: 0,
+        validate: {
+          min: 0,
+        }
       },
     },
     {

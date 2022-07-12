@@ -1,5 +1,5 @@
 const { hashSync, compareSync } = require('bcrypt');
-const { User, Account, Nationality } = require('../db.js');
+const { User, Account, Nationality, SavingAccount } = require('../db.js');
 const jwt = require('jsonwebtoken');
 
 // ############################################################################################
@@ -14,7 +14,7 @@ const generateCBU = () => {
   return cbu;
 };
 
-let generateAlias = email => {
+let generateAlias = (email) => {
   let alias = email.split('@')[0] + '.henrybank';
   return alias;
 };
@@ -36,12 +36,13 @@ const register = async (req, res) => {
   } = req.body;
   let password = hashSync(req.body.password, 10);
 
-  const [user, created] = await User.findOrCreate({
-    where: {
-      identity,
-      email,
-    },
-    defaults: {
+  // Check if theres a User with the same identity or email, if it is, dont create
+
+  if (
+    !(await User.findOne({ where: { email } })) &&
+    !(await User.findOne({ where: { identity } }))
+  ) {
+    const user = await User.create({
       identity,
       name,
       lastName,
@@ -51,17 +52,17 @@ const register = async (req, res) => {
       password,
       city,
       address,
-    },
-  });
+     });
 
-  if (created) {
-    let account = await Account.create({
+    const account = await Account.create({
       cbu: generateCBU(),
       alias: generateAlias(email),
+      name: name,
+      lastName: lastName,
       balance: 0,
-      contacts: [],
-      risk: '',
+      contacts: email,
     });
+    account.setUser(user);
 
     const [nation, created] = await Nationality.findOrCreate({
       where: { name: nationality },
@@ -72,14 +73,19 @@ const register = async (req, res) => {
 
     nation.addUser(user);
 
+    const savingAccount = await SavingAccount.create({
+      ars: 0,
+      usd: 0,
+    });
+
+    account.setSavingAccount(savingAccount);
+
     res.send({
       msg: 'Usuario y cuenta creados',
       email: user.email,
       account,
     });
-  } else {
-    res.send({ msg: 'Usuario ya existe', email: user.email });
-  }
+  } else res.send({ msg: 'Usuario ya existe' });
 };
 
 module.exports = register;

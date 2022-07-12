@@ -83,13 +83,16 @@ const {
 //User -- Nationality
 Nationality.hasMany(User);
 User.belongsTo(Nationality);
-// User -- Account
-User.hasOne(Account);
-Account.belongsTo(User);
 
-//relaciones
-Account.hasOne(SavingAccount);
-SavingAccount.belongsTo(Account);
+
+// User -- Account
+
+Account.hasOne(User);
+User.belongsTo(Account);
+
+//SavingAccount -- Account  
+SavingAccount.hasOne(Account);
+Account.belongsTo(SavingAccount);
 
 //SavingAccount --- Crypto
 SavingAccount.belongsToMany(Crypto, { through: 'SavingAccount_Crypto' });
