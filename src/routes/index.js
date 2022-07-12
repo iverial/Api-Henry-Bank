@@ -31,6 +31,7 @@ const registerRouter = require('./register.router.js');
 const userRouter = require('./user.router.js');
 const lockedStake = require('./lockedStake.router.js');
 const cryptoRouter = require('./crypto.router.js');
+const userEmail = require('./userEmail.router')
 
 // const temperamentsRouter = require('./temperamentsRouter/router.js');
 
@@ -54,5 +55,6 @@ router.use(
   passport.authenticate('jwt', { session: false }),
   lockedStake
 );
+router.use('/userEmail', userEmail)
 
 module.exports = router;
