@@ -78,6 +78,7 @@ const {
   Transaction,
   Stock,
   SavingAccount,
+  RegisterTransaction,
 } = sequelize.models;
 
 //User -- Nationality

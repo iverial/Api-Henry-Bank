@@ -56,9 +56,11 @@ router.use(
   lockedStake
 );
 
-
-
-router.use('/search', searchAccount); 
+router.use(
+  '/search',
+  passport.authenticate('jwt', { session: false }),
+  searchAccount
+);
 
 
 

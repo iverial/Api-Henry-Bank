@@ -3,6 +3,10 @@ const router = Router();
 
 const {searchAccount} = require('../controllers/searchAccount.controller.js')
 
-router.get('/', searchAccount);
+const {tranfer} = require('../controllers/transaction.controller')
+
+router.get('/', searchAccount); // busca el cbu y el alias 
+
+router.put('/tranfer', tranfer); // transaccion 
 
 module.exports = router;
