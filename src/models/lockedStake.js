@@ -7,8 +7,7 @@ module.exports = sequelize => {
       id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
-        unique: true,
-        autoincrement: true,
+        autoIncrement: true,
       },
       roi: {
         type: DataTypes.STRING,
@@ -20,9 +19,6 @@ module.exports = sequelize => {
         type: DataTypes.INTEGER,
       },
       end_date: {
-        type: DataTypes.STRING,
-      },
-      name: {
         type: DataTypes.STRING,
       },
     },
