@@ -58,9 +58,11 @@ router.use(
 );
 router.use('/userEmail', userEmail)
 
-
-
-router.use('/search', searchAccount); 
+router.use(
+  '/search',
+  passport.authenticate('jwt', { session: false }),
+  searchAccount
+);
 
 
 
