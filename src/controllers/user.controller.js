@@ -1,4 +1,4 @@
-const { User, Nationality, Account } = require('../db.js');
+const { User, Nationality, Account, SavingAccount } = require('../db.js');
 
 const allUsers = async () => {
   const users = await User.findAll();
@@ -33,11 +33,13 @@ detailUser = async (detail) => {
 
 const userRecharge = async (amount, detail) => {
   const account = await Account.findByPk(detail.AccountId);
+  const saving = await SavingAccount.findByPk(account.SavingAccountId);
 
   if (!account) throw new Error({ message: 'Account not found' });
 
   const newBalance = account.balance + Number(amount);
   await account.update({ balance: newBalance });
+  await saving.update({ ars: newBalance });
 
   return { message: 'Recharge successful' };
 };
