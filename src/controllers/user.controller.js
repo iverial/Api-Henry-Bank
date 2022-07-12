@@ -30,7 +30,7 @@ detailUser = async detail => {
   return allDetail;
 };
 
-module.exports = {
+ module.exports = {
   user: async (req, res) => {
     try {
       const users = await allUsers();
