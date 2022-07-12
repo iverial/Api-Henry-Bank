@@ -1,16 +1,20 @@
 const { Account, SavingAccount, RegisterTransaction } = require('../db.js');
+
 const { AccountDestiny } = require('../controllers/searchAccount.controller.js');
 
 
 async function tranfer(req, res) {
+
+
+
+
     const { amount } = req.body
     // cuenta origen
     const { AccountId } = req.user
     const accountOrigin = await Account.findOne({ where: { id: AccountId } });
 
     const savingAccountOrigin = await SavingAccount.findOne({ where: { id: accountOrigin.SavingAccountId } });
-    const savingAccountDestiny = await SavingAccount.findOne({ where: { id: AccountDestiny.Account.dataValues.SavingAccountId } });
-
+    const savingAccountDestiny = await SavingAccount.findOne({ where: { id: AccountDestiny.Account.SavingAccountId } });
 
     if (savingAccountOrigin.ars >= amount) {
         //transaccion de cuenta de Origen
@@ -38,8 +42,6 @@ async function tranfer(req, res) {
     } else {
         res.send({ msg: "Fondos insuficiente" })
     }
-
-
 }
 
 

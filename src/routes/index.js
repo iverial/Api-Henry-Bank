@@ -34,6 +34,7 @@ const cryptoRouter = require('./crypto.router.js');
 const userEmail = require('./userEmail.router')
 const searchAccount = require('./searchAccount.router.js');
 
+
 // const temperamentsRouter = require('./temperamentsRouter/router.js');
 
 // Configurar los routers
@@ -56,6 +57,7 @@ router.use(
   passport.authenticate('jwt', { session: false }),
   lockedStake
 );
+
 router.use('/userEmail', userEmail)
 
 router.use(
@@ -63,9 +65,5 @@ router.use(
   passport.authenticate('jwt', { session: false }),
   searchAccount
 );
-
-
-
-
 
 module.exports = router;
