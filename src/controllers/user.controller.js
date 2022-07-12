@@ -1,4 +1,4 @@
-const { User, Nationality, Account } = require('../db.js');
+const { User, Nationality, Account, SavingAccount } = require('../db.js');
 
 const allUsers = async () => {
   const users = await User.findAll();
@@ -7,7 +7,7 @@ const allUsers = async () => {
   return users;
 };
 
-detailUser = async detail => {
+detailUser = async (detail) => {
   const nationality = await Nationality.findByPk(detail.NationalityId);
   const account = await Account.findByPk(detail.AccountId);
 
@@ -26,8 +26,22 @@ detailUser = async detail => {
     alias: account.alias,
     balance: account.balance,
   };
+  console.log(allDetail);
 
   return allDetail;
+};
+
+const userRecharge = async (amount, detail) => {
+  const account = await Account.findByPk(detail.AccountId);
+  const saving = await SavingAccount.findByPk(account.SavingAccountId);
+
+  if (!account) throw new Error({ message: 'Account not found' });
+
+  const newBalance = account.balance + Number(amount);
+  await account.update({ balance: newBalance });
+  await saving.update({ ars: newBalance });
+
+  return { message: 'Recharge successful' };
 };
 
 module.exports = {
@@ -43,5 +57,10 @@ module.exports = {
   userDetail: async (req, res) => {
     const userDetail = await detailUser(req.user.dataValues);
     res.send(userDetail);
+  },
+
+  userRecharge: async (req, res) => {
+    const recharge = await userRecharge(req.body.amount, req.user.dataValues);
+    res.send(recharge);
   },
 };

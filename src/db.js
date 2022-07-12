@@ -5,10 +5,10 @@ const path = require('path');
 const { DB_USER, DB_PASSWORD, DB_HOST, DB_NAME } = process.env;
 
 let sequelize =
-  process.env.NODE_ENV === "production"
+  process.env.NODE_ENV === 'production'
     ? new Sequelize({
         database: DB_NAME,
-        dialect: "postgres",
+        dialect: 'postgres',
         host: DB_HOST,
         port: 5432,
         username: DB_USER,
@@ -85,30 +85,25 @@ const {
 Nationality.hasMany(User);
 User.belongsTo(Nationality);
 
-
 // User -- Account
 
 Account.hasOne(User);
 User.belongsTo(Account);
 
-//SavingAccount -- Account  
+//SavingAccount -- Account
 SavingAccount.hasOne(Account);
 Account.belongsTo(SavingAccount);
 
 //SavingAccount --- Crypto
-SavingAccount.belongsToMany(Crypto, { through: 'SavingAccount_Crypto' });
-Crypto.belongsToMany(SavingAccount, { through: 'SavingAccount_Crypto' });
+Crypto.hasOne(SavingAccount);
+SavingAccount.belongsTo(Crypto);
 
 //SavingAccount --- Stock
 SavingAccount.belongsToMany(Stock, { through: 'SavingAccount_Stock' });
 Stock.belongsToMany(SavingAccount, { through: 'SavingAccount_Stock' });
 
 // SavingAccount --- LockedStake
-SavingAccount.hasOne(LockedStake);
-LockedStake.belongsTo(SavingAccount);
-
-// LockedStake --- SavingAccount
-LockedStake.hasMany(SavingAccount);
+LockedStake.hasOne(SavingAccount);
 SavingAccount.belongsTo(LockedStake);
 
 // Aca vendrian las relaciones

@@ -1,21 +1,19 @@
 const axios = require('axios');
 
 const cryptoList = [
-  'huobi-btc',
-  'wrapped-bitcoin',
   'bitcoin',
-  'pax-gold',
-  'tether-gold',
   'ethereum',
-  'staked-ether',
-  'maker',
   'binancecoin',
-  'monero',
+  'matic-network',
+  'solana',
+  'pax-gold',
+  'tether',
+  'tether-eurt',
 ];
 
 const allCryptos = async () => {
   const allCryptos = await Promise.all(
-    cryptoList.map(async crypto => {
+    cryptoList.map(async (crypto) => {
       const response = await axios.get(
         `https://api.coingecko.com/api/v3/coins/${crypto}?localization=false&tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false`
       );
@@ -38,6 +36,10 @@ const allCryptos = async () => {
       };
     })
   );
+
+  allCryptos[5].name = 'Oro Fisico';
+  allCryptos[6].name = 'Euro';
+  allCryptos[7].name = 'Dolar';
 
   return allCryptos;
 };
