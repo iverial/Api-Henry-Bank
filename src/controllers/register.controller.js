@@ -36,6 +36,16 @@ const register = async (req, res) => {
   } = req.body;
   let password = hashSync(req.body.password, 10);
 
+  if (
+    !email.match(
+      /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
+    )
+  ) {
+    return res.status(400).json({
+      error: 'Email is not valid',
+    });
+  }
+
   // Check if theres a User with the same identity or email, if it is, dont create
 
   if (
@@ -52,7 +62,7 @@ const register = async (req, res) => {
       password,
       city,
       address,
-     });
+    });
 
     const account = await Account.create({
       cbu: generateCBU(),

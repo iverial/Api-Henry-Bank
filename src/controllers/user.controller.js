@@ -7,7 +7,7 @@ const allUsers = async () => {
   return users;
 };
 
-detailUser = async detail => {
+detailUser = async (detail) => {
   const nationality = await Nationality.findByPk(detail.NationalityId);
   const account = await Account.findByPk(detail.AccountId);
 
@@ -26,11 +26,23 @@ detailUser = async detail => {
     alias: account.alias,
     balance: account.balance,
   };
+  console.log(allDetail);
 
   return allDetail;
 };
 
- module.exports = {
+const userRecharge = async (amount, detail) => {
+  const account = await Account.findByPk(detail.AccountId);
+
+  if (!account) throw new Error({ message: 'Account not found' });
+
+  const newBalance = account.balance + Number(amount);
+  await account.update({ balance: newBalance });
+
+  return { message: 'Recharge successful' };
+};
+
+module.exports = {
   user: async (req, res) => {
     try {
       const users = await allUsers();
@@ -43,5 +55,10 @@ detailUser = async detail => {
   userDetail: async (req, res) => {
     const userDetail = await detailUser(req.user.dataValues);
     res.send(userDetail);
+  },
+
+  userRecharge: async (req, res) => {
+    const recharge = await userRecharge(req.body.amount, req.user.dataValues);
+    res.send(recharge);
   },
 };
