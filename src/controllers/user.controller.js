@@ -1,4 +1,10 @@
-const { User, Nationality, Account, SavingAccount } = require('../db.js');
+const {
+  User,
+  Nationality,
+  Account,
+  SavingAccount,
+  RegisterRecharge,
+} = require('../db.js');
 
 const allUsers = async () => {
   const users = await User.findAll();
@@ -7,7 +13,7 @@ const allUsers = async () => {
   return users;
 };
 
-detailUser = async (detail) => {
+detailUser = async detail => {
   const nationality = await Nationality.findByPk(detail.NationalityId);
   const account = await Account.findByPk(detail.AccountId);
 
@@ -40,6 +46,13 @@ const userRecharge = async (amount, detail) => {
   const newBalance = Number(account.balance) + Number(amount);
   await account.update({ balance: newBalance });
   await saving.update({ ars: newBalance });
+
+  console.log(detail.AccountId);
+
+  await RegisterRecharge.create({
+    account: detail.AccountId,
+    amount: amount,
+  });
 
   return { message: 'Recharge successful' };
 };
