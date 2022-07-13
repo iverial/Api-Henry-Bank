@@ -37,7 +37,7 @@ const userRecharge = async (amount, detail) => {
 
   if (!account) throw new Error({ message: 'Account not found' });
 
-  const newBalance = account.balance + Number(amount);
+  const newBalance = Number(account.balance) + Number(amount);
   await account.update({ balance: newBalance });
   await saving.update({ ars: newBalance });
 
