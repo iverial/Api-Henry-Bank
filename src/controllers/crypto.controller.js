@@ -233,9 +233,6 @@ module.exports = {
   buyCrypto: async (req, res) => {
     const { amount, crypto, price } = req.body;
     const { AccountId } = req.user;
-    console.log("---------------------------------------------------------")
-    console.log(AccountId)
-
     const resp = await buyCrypto(amount, crypto, price, AccountId);
     res.json(resp);
   },
