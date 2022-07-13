@@ -51,6 +51,22 @@ const allCryptos = async () => {
 };
 
 //##############################################################
+// Get Crypto prices para graficar
+//##############################################################
+
+const getCryptoPrices = async (crypto) => {
+  const response = await axios.get(
+    `https://api.coingecko.com/api/v3/coins/${crypto}/market_chart?vs_currency=usd&days=30&interval=daily`
+  );
+
+  const prices = response.data.prices.map((price) => {
+    return Math.round(price[1] * 100) / 100;
+  });
+
+  return prices;
+};
+
+//##############################################################
 //Buy Crypto
 //##############################################################
 
@@ -152,12 +168,46 @@ const sellCrypto = async (amount, crypto, price, AccountId) => {
   }
 };
 
+//##############################################################
+// Profile Balance ver el balance de las cryptos de un usuario
+//##############################################################
+
+const profileBalance = async (AccountId) => {
+  const account = await Account.findOne({ where: { id: AccountId } });
+  const savingAccount = await SavingAccount.findOne({
+    where: { id: account.SavingAccountId },
+  });
+
+  const cryptoAll = await Crypto.findAll({
+    where: {
+      SavingAccountId: account.SavingAccountId,
+    },
+  });
+
+  const cryptoList = cryptoAll.map((crypto) => {
+    return {
+      name: crypto.name,
+      balance: crypto.balance,
+      buyPrice: crypto.buyPrice,
+    };
+  });
+
+  return cryptoList;
+};
+
 module.exports = {
   crypto: async (req, res) => {
     const response = await allCryptos();
 
     res.status(200).json(response);
   },
+
+  profileBalance: async (req, res) => {
+    const { AccountId } = req.user;
+    const response = await profileBalance(AccountId);
+    res.send(response);
+  },
+
   buyCrypto: async (req, res) => {
     const { amount, crypto, price } = req.body;
     const { AccountId } = req.user;
@@ -172,5 +222,11 @@ module.exports = {
 
     const resp = await sellCrypto(amount, crypto, price, AccountId);
     res.json(resp);
+  },
+
+  getCryptoPrices: async (req, res) => {
+    const { crypto } = req.params;
+    const response = await getCryptoPrices(crypto);
+    res.send(response);
   },
 };
