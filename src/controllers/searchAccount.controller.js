@@ -13,20 +13,20 @@ async function searchAccount(req, res,) {
                 cbu: findCbu.cbu
             })
         } else {
-            res.status(400).json({msg:"No se encontro el alias cbu"})
+            res.status(400).json({ msg: "No se encontro el alias" })
         }
     } else if (alias) {
-        const findAlias = await Account.findOne({ where: { alias: alias } });
-       
+        const findAlias = await Account.findOne({ where: { alias } });
+
         if (findAlias) {
             res.status(200).json({
                 msg: "Se recibicio el alias",
-                user: findCbu.name + " " + findCbu.lastName,
-                cbu: findCbu.cbu
+                user: findAlias.name + " " + findAlias.lastName,
+                cbu: findAlias.dataValues.cbu
             })
-            AccountDestiny.Account = findCbu
+            AccountDestiny.Account = findAlias
         } else
-            res.status(400).json({msg:"No se encontro el alias alias"})
+            res.status(400).json({ msg: "No se encontro el alias" })
     }
 
 }
