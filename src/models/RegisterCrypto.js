@@ -2,31 +2,34 @@ const { DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
   sequelize.define(
-    'Crypto',
+    'RegisterCrypto',
     {
-      id: {
+        account: {
         type: DataTypes.INTEGER,
-        autoIncrement: true,
-        primaryKey: true,
         allowNull: false,
       },
-      balance: {
-        type: DataTypes.DECIMAL,
-        allowNull: false,
-        defaultValue: 0,
-      },
-      name: {
+      nameCrypto: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      buyPrice: {
+      transactionType: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      price: {
+        type: DataTypes.DECIMAL,
+        allowNull: false,
+      },
+      amount: {
         type: DataTypes.DECIMAL,
         allowNull: false,
       },
     },
     {
       createdAt: false,
+      createdAt: 'date',
       updatedAt: false,
     }
-  );
+ );
+  
 };

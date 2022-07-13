@@ -4,6 +4,7 @@ const {
   Account,
   SavingAccount,
   RegisterRecharge,
+  RegisterTransaction,
 } = require('../db.js');
 
 const allUsers = async () => {
@@ -47,14 +48,91 @@ const userRecharge = async (amount, detail) => {
   await account.update({ balance: newBalance });
   await saving.update({ ars: newBalance });
 
-  console.log(detail.AccountId);
-
   await RegisterRecharge.create({
     account: detail.AccountId,
     amount: amount,
   });
 
   return { message: 'Recharge successful' };
+};
+
+const userMovements = async detail => {
+  let recharges = await RegisterRecharge.findAll({
+    where: { account: detail.AccountId },
+  });
+
+  recharges = recharges.map(t => {
+    let date = `${t.date.getDate()}/${t.date.getMonth()}/${t.date.getFullYear()}`;
+    let hour = `${t.date.getHours()}:${t.date.getMinutes()}:${t.date.getSeconds()}`;
+
+    return {
+      idOp: t.id,
+      ['image-icon-paper']: 'plus',
+      amount: `+${t.amount}`,
+      date: date,
+      hour: hour,
+    };
+  });
+
+  let transactionsSent = await RegisterTransaction.findAll({
+    where: { accountOrigin: detail.AccountId },
+  });
+
+  transactionsSent = await Promise.all(
+    transactionsSent.map(async t => {
+      let accountDestiny = await Account.findByPk(t.accountDestiny);
+      let date = `${t.date.getDate()}/${t.date.getMonth()}/${t.date.getFullYear()}`;
+      let hour = `${t.date.getHours()}:${t.date.getMinutes()}:${t.date.getSeconds()}`;
+
+      return {
+        idOp: t.id,
+        ['image-icon-paper']: 'transfer-up',
+        amount: `-${t.amount}`,
+        date: date,
+        hour: hour,
+        accountDestiny: {
+          cub: accountDestiny.cbu,
+          alias: accountDestiny.alias,
+          name: accountDestiny.name,
+          lastName: accountDestiny.lastName,
+        },
+      };
+    })
+  );
+
+  let transactionsReceived = await RegisterTransaction.findAll({
+    where: { accountDestiny: detail.AccountId },
+  });
+
+  transactionsReceived = await Promise.all(
+    transactionsReceived.map(async t => {
+      let accountOrigin = await Account.findByPk(t.accountOrigin);
+      let date = `${t.date.getDate()}/${t.date.getMonth()}/${t.date.getFullYear()}`;
+      let hour = `${t.date.getHours()}:${t.date.getMinutes()}:${t.date.getSeconds()}`;
+
+      return {
+        idOp: t.id,
+        ['image-icon-paper']: 'transfer-down',
+        amount: `+${t.amount}`,
+        date: date,
+        hour: hour,
+        accountOrigin: {
+          cub: accountOrigin.cbu,
+          alias: accountOrigin.alias,
+          name: accountOrigin.name,
+          lastName: accountOrigin.lastName,
+        },
+      };
+    })
+  );
+
+  let movements = {
+    recharges: recharges,
+    transactionsReceived: transactionsReceived,
+    transactionsSent: transactionsSent,
+  };
+
+  return movements;
 };
 
 module.exports = {
@@ -75,5 +153,10 @@ module.exports = {
   userRecharge: async (req, res) => {
     const recharge = await userRecharge(req.body.amount, req.user.dataValues);
     res.send(recharge);
+  },
+
+  userMovements: async (req, res) => {
+    const movements = await userMovements(req.user.dataValues);
+    res.send(movements);
   },
 };
