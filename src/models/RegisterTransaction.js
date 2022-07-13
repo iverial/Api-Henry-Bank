@@ -8,19 +8,21 @@ module.exports = (sequelize) => {
       defaultValue: DataTypes.UUIDV4,
       unique: true,
     },
-    date: {
-      type: DataTypes.DATE,
-      allowNull: false,
+    accountOrigin: {
+      type: DataTypes.STRING,
+    },
+    amountOrigin: {
+      type: DataTypes.STRING,
+    },
+    accountDestiny: {
+      type: DataTypes.STRING,
+    },
+    amountDestiny: {
+      type: DataTypes.STRING,
     },
     amount: {
       type: DataTypes.DECIMAL,
       allowNull: false,
-    },
-
-    state: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      defaultValue: 'rejected',
     },
   });
 };

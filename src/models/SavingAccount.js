@@ -13,9 +13,7 @@ module.exports = (sequelize) => {
      ars: {
         type: DataTypes.INTEGER,
         defaultValue: 0,
-        validate: {
-          min: 0,
-        }
+      
       },
      usd:{
         type: DataTypes.INTEGER,
