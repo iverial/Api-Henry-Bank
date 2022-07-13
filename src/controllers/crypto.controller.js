@@ -1,4 +1,10 @@
 const axios = require('axios');
+const {
+  Account,
+  SavingAccount,
+  RegisterTransaction,
+  Crypto,
+} = require('../db.js');
 
 const cryptoList = [
   'bitcoin',
@@ -44,10 +50,183 @@ const allCryptos = async () => {
   return allCryptos;
 };
 
+//##############################################################
+// Get Crypto prices para graficar
+//##############################################################
+
+const getCryptoPrices = async (crypto) => {
+  const response = await axios.get(
+    `https://api.coingecko.com/api/v3/coins/${crypto}/market_chart?vs_currency=usd&days=30&interval=daily`
+  );
+
+  const prices = response.data.prices.map((price) => {
+    return Math.round(price[1] * 100) / 100;
+  });
+
+  return prices;
+};
+
+//##############################################################
+//Buy Crypto
+//##############################################################
+
+const buyCrypto = async (amount, crypto, price, AccountId) => {
+  const dolar = 250;
+  const cryptoAmount = amount / dolar / price;
+
+  const account = await Account.findOne({ where: { id: AccountId } });
+  const savingAccount = await SavingAccount.findOne({
+    where: { id: account.SavingAccountId },
+  });
+
+  if (savingAccount.ars < amount) return { msg: 'Fondos insuficientes' };
+
+  // Actualizar el balance del usuario
+  const updateAmount = savingAccount.ars - Number(amount);
+
+  await savingAccount.update({
+    ars: updateAmount,
+  });
+  await account.update({
+    balance: updateAmount,
+  });
+
+  const cryptoInstance = await Crypto.findOne({
+    where: {
+      SavingAccountId: account.SavingAccountId,
+      name: crypto,
+    },
+  });
+
+  if (cryptoInstance) {
+    const mediumPrice =
+      (Number(cryptoInstance.buyPrice) * Number(cryptoInstance.balance) +
+        cryptoAmount * price) /
+      (Number(cryptoInstance.balance) + cryptoAmount);
+
+    const newAmount = Number(cryptoInstance.balance) + Number(cryptoAmount);
+    await cryptoInstance.update({
+      balance: newAmount,
+      buyPrice: mediumPrice,
+    });
+
+    return { msg: 'Crypto Comprada' };
+  } else {
+    const cryptoNewInstance = await Crypto.create({
+      name: crypto,
+      balance: Number(cryptoAmount),
+      buyPrice: Number(price),
+    });
+
+    await savingAccount.addCrypto(cryptoNewInstance);
+
+    return { msg: 'Nueva Crypto Comprada' };
+  }
+};
+
+//##############################################################
+// Sell Crypto
+//##############################################################
+const sellCrypto = async (amount, crypto, price, AccountId) => {
+  const dolar = 250;
+  const cryptoAmount = amount * dolar * price;
+
+  const account = await Account.findOne({ where: { id: AccountId } });
+  const savingAccount = await SavingAccount.findOne({
+    where: { id: account.SavingAccountId },
+  });
+
+  const cryptoInstance = await Crypto.findOne({
+    where: {
+      SavingAccountId: account.SavingAccountId,
+      name: crypto,
+    },
+  });
+
+  if (cryptoInstance && cryptoInstance.balance < amount)
+    return { msg: 'Balance de crypto insuficiente' };
+
+  // Actualizar el balance del usuario
+  const updateAmount = savingAccount.ars + Number(cryptoAmount);
+
+  await savingAccount.update({
+    ars: updateAmount,
+  });
+  await account.update({
+    balance: updateAmount,
+  });
+
+  if (cryptoInstance) {
+    const newAmount = Number(cryptoInstance.balance) - Number(amount);
+    await cryptoInstance.update({
+      balance: newAmount,
+    });
+
+    return { msg: 'Crypto Vendida' };
+  } else {
+    return { msg: 'No se encontro la crypto, corrobora datos' };
+  }
+};
+
+//##############################################################
+// Profile Balance ver el balance de las cryptos de un usuario
+//##############################################################
+
+const profileBalance = async (AccountId) => {
+  const account = await Account.findOne({ where: { id: AccountId } });
+  const savingAccount = await SavingAccount.findOne({
+    where: { id: account.SavingAccountId },
+  });
+
+  const cryptoAll = await Crypto.findAll({
+    where: {
+      SavingAccountId: account.SavingAccountId,
+    },
+  });
+
+  const cryptoList = cryptoAll.map((crypto) => {
+    return {
+      name: crypto.name,
+      balance: crypto.balance,
+      buyPrice: crypto.buyPrice,
+    };
+  });
+
+  return cryptoList;
+};
+
 module.exports = {
   crypto: async (req, res) => {
     const response = await allCryptos();
 
     res.status(200).json(response);
+  },
+
+  profileBalance: async (req, res) => {
+    const { AccountId } = req.user;
+    const response = await profileBalance(AccountId);
+    res.send(response);
+  },
+
+  buyCrypto: async (req, res) => {
+    const { amount, crypto, price } = req.body;
+    const { AccountId } = req.user;
+
+    const resp = await buyCrypto(amount, crypto, price, AccountId);
+    res.json(resp);
+  },
+
+  sellCrypto: async (req, res) => {
+    const { amount, crypto, price } = req.body;
+    const { AccountId } = req.user;
+
+    const resp = await sellCrypto(amount, crypto, price, AccountId);
+    res.json(resp);
+  },
+
+  getCryptoPrices: async (req, res) => {
+    const { crypto } = req.params;
+    const response = await getCryptoPrices(crypto);
+    res.send(response);
   },
 };
