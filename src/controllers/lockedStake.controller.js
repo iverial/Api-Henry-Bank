@@ -11,6 +11,10 @@ if(savingAccountOrigin.ars >= deposit){
   if(parking === '5 minutes'){
   let start_date = Date.now()
   const endDate = start_date + 300000
+  let updateAmountOrigin = savingAccountOrigin.ars - Number(deposit)
+  await savingAccountOrigin.update({
+      ars: updateAmountOrigin
+ }, { where: { id: savingAccountOrigin.id }})
 
   console.log(start_date)
   console.log(endDate)
