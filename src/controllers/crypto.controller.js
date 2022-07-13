@@ -2,8 +2,8 @@ const axios = require('axios');
 const {
   Account,
   SavingAccount,
-  RegisterTransaction,
   Crypto,
+  RegisterCrypto,
 } = require('../db.js');
 
 const cryptoList = [
@@ -109,7 +109,14 @@ const buyCrypto = async (amount, crypto, price, AccountId) => {
       balance: newAmount,
       buyPrice: mediumPrice,
     });
-
+    // ACA SE REGISTRA LA COMPRA DE CRYPTO
+    await RegisterCrypto.create({
+      account: AccountId,
+      transactionType: "Buy",
+      nameCrypto: crypto,
+      price: Number(price),
+      amount: amount,
+    });
     return { msg: 'Crypto Comprada' };
   } else {
     const cryptoNewInstance = await Crypto.create({
@@ -120,6 +127,14 @@ const buyCrypto = async (amount, crypto, price, AccountId) => {
 
     await savingAccount.addCrypto(cryptoNewInstance);
 
+    // ACA SE REGISTRA LA COMPRA DE CRYPTO 
+    await RegisterCrypto.create({
+      account: AccountId,
+      nameCrypto: crypto,
+      transactionType: "Buy",
+      price: Number(price),
+      amount: amount,
+    });
     return { msg: 'Nueva Crypto Comprada' };
   }
 };
@@ -162,6 +177,13 @@ const sellCrypto = async (amount, crypto, price, AccountId) => {
       balance: newAmount,
     });
 
+    await RegisterCrypto.create({
+      account: AccountId,
+      transactionType: "Sell",
+      nameCrypto: crypto,
+      price: Number(price),
+      amount: amount,
+    });
     return { msg: 'Crypto Vendida' };
   } else {
     return { msg: 'No se encontro la crypto, corrobora datos' };
@@ -211,6 +233,8 @@ module.exports = {
   buyCrypto: async (req, res) => {
     const { amount, crypto, price } = req.body;
     const { AccountId } = req.user;
+    console.log("---------------------------------------------------------")
+    console.log(AccountId)
 
     const resp = await buyCrypto(amount, crypto, price, AccountId);
     res.json(resp);
