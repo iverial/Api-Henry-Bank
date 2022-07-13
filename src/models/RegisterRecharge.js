@@ -11,7 +11,7 @@ module.exports = sequelize => {
         unique: true,
       },
       account: {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
       },
       amount: {
         type: DataTypes.DECIMAL,

@@ -11,16 +11,16 @@ module.exports = sequelize => {
         unique: true,
       },
       accountOrigin: {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
       },
       amountOrigin: {
-        type: DataTypes.STRING,
+        type: DataTypes.DECIMAL,
       },
       accountDestiny: {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
       },
       amountDestiny: {
-        type: DataTypes.STRING,
+        type: DataTypes.DECIMAL,
       },
       amount: {
         type: DataTypes.DECIMAL,
