@@ -8,9 +8,29 @@ const {
 } = require('../db.js');
 
 const allUsers = async () => {
-  const users = await User.findAll();
+  let users = await User.findAll({
+    include: [
+      {
+        model: Account,
+        attributes: ['cbu', 'alias'],
+      },
+    ],
+  });
+
+  users = users.map(u => {
+    return {
+      id: u.id,
+      image: u.image,
+      name: u.name,
+      lastName: u.lastName,
+      email: u.email,
+      cbu: u.Account.cbu,
+      alias: u.Account.alias,
+    };
+  });
 
   if (!users.length) throw new Error('Users not found');
+
   return users;
 };
 
