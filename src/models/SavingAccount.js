@@ -11,12 +11,12 @@ module.exports = (sequelize) => {
         allowNull: false,
       },
      ars: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.DECIMAL,
         defaultValue: 0,
       
       },
      usd:{
-        type: DataTypes.INTEGER,
+        type: DataTypes.DECIMAL,
         defaultValue: 0,
         validate: {
           min: 0,
