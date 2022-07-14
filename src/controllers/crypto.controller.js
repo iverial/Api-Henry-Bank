@@ -166,7 +166,7 @@ const sellCrypto = async (amount, crypto, price, AccountId) => {
     return { msg: 'Balance de crypto insuficiente' };
 
   // Actualizar el balance del usuario
-  const updateAmount = savingAccount.ars + Number(cryptoAmount);
+  const updateAmount = Number(savingAccount.ars) + Number(cryptoAmount);
 
   await savingAccount.update({
     ars: updateAmount,
