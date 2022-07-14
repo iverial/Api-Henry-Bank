@@ -71,6 +71,8 @@ const getCryptoPrices = async (crypto) => {
 //##############################################################
 
 const buyCrypto = async (amount, crypto, price, AccountId) => {
+  amount = Number(amount)
+  price = Number(price)
   const dolar = 250;
   const cryptoAmount = amount / dolar / price;
 
@@ -143,6 +145,8 @@ const buyCrypto = async (amount, crypto, price, AccountId) => {
 // Sell Crypto
 //##############################################################
 const sellCrypto = async (amount, crypto, price, AccountId) => {
+  amount = Number(amount)
+  price = Number(price)
   const dolar = 250;
   const cryptoAmount = amount * dolar * price;
 
