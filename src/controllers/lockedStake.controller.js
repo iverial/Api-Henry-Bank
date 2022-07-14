@@ -5,12 +5,14 @@ const lockedStake = async (req, res) => {
   const { AccountId } = req.user
   const accountOrigin = await Account.findOne({ where: { id: AccountId } });
   const savingAccountOrigin = await SavingAccount.findOne({ where: { id: accountOrigin.SavingAccountId } });
-  
-if(savingAccountOrigin.LockedStakeId === null){  
+  let status = await LockedStake.findAll({where: {transactionType: 'pending'}})
+  console.log(status)
+  if(status[0]){res.send('plazo fijo activo')} else {
+
 if(savingAccountOrigin.ars >= deposit){
 if(parking === '5 minutes'){
   let start_date = Date.now()
-  const endDate = start_date + 300000
+  const endDate = start_date + 120000
   let updateAmountOrigin = savingAccountOrigin.ars - Number(deposit)
   await savingAccountOrigin.update({
       ars: updateAmountOrigin
@@ -19,13 +21,12 @@ if(parking === '5 minutes'){
   await accountOrigin.update({
     balance: updateBalanceOrigin
   }) 
-
   console.log(start_date)
   console.log(endDate)
  
   let a = setInterval(function(){
   mensaje(endDate)
-}, 300000)
+}, 120000)
  
 async function mensaje(end_date) {
        let time1 = Date.now()
@@ -41,6 +42,9 @@ async function mensaje(end_date) {
           await accountOrigin.update({
             balance: updateBalanceOrigin
           }) 
+          await LockedStake.update({
+            transactionType: 'finalized'
+          }, {where: {transactionType: 'pending'}})
 
           let hour = new Date().getHours()
           let min = new Date().getMinutes()
@@ -91,22 +95,21 @@ async function mensaje(end_date) {
     deposit,
     end_date,
   })
-  
-  const locked = await LockedStake.create({
-      roi,
-      parking,
-      deposit,
-      end_date,
-  });
-  locked.setSavingAccount(savingAccountOrigin)
+ const locked = await LockedStake.create({
+  roi,
+  parking,
+  transactionType,
+  deposit,
+  end_date,
+});
+locked.setSavingAccount(savingAccountOrigin)
     res.send("El plazo fijo se creo correctamente");
   } 
 } else if(savingAccountOrigin.ars < deposit) {
    res.send("No tienes el dinero suficiente para invertir en plazo fijo")
-}} else if(savingAccountOrigin.LockedStakeId === 1)  {
-    res.status(404).send('solo puedes tener un plazo fijo!')
-  }  
+ }
 };
+}
 
 
 module.exports = lockedStake;
