@@ -104,8 +104,8 @@ SavingAccount.belongsToMany(Stock, { through: 'SavingAccount_Stock' });
 Stock.belongsToMany(SavingAccount, { through: 'SavingAccount_Stock' });
 
 // SavingAccount --- LockedStake
-LockedStake.hasOne(SavingAccount);
-SavingAccount.belongsTo(LockedStake);
+SavingAccount.hasMany(LockedStake);
+LockedStake.belongsTo(SavingAccount);
 
 // Aca vendrian las relaciones
 // Product.hasMany(Reviews);

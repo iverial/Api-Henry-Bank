@@ -2,19 +2,19 @@ const { DataTypes } = require('sequelize');
 
 module.exports = sequelize => {
   sequelize.define(
-    'LockedStake',
+    'RegisterLockedStake',
     {
       id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
       },
+      roi: {
+        type: DataTypes.STRING,
+      },
       transactionType: {
         type: DataTypes.STRING,
         allowNull: false,
-      },
-      roi: {
-        type: DataTypes.STRING,
       },
       parking: {
         type: DataTypes.STRING,

@@ -1,3 +1,5 @@
+const axios = require('axios');
+
 const {
   User,
   Nationality,
@@ -5,6 +7,7 @@ const {
   SavingAccount,
   RegisterRecharge,
   RegisterTransaction,
+  RegisterCrypto,
 } = require('../db.js');
 
 const allUsers = async () => {
@@ -146,10 +149,57 @@ const userMovements = async detail => {
     })
   );
 
+  const registerCrypto = await RegisterCrypto.findAll();
+
+  let buyCrypto = registerCrypto.filter(b => b.transactionType === 'Buy');
+
+  buyCrypto = await Promise.all(
+    buyCrypto.map(async b => {
+      const response = await axios.get(
+        `https://api.coingecko.com/api/v3/coins/${b.nameCrypto}?localization=false&tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false`
+      );
+      let date = `${b.date.getDate()}/${b.date.getMonth()}/${b.date.getFullYear()}`;
+      let hour = `${b.date.getHours()}:${b.date.getMinutes()}:${b.date.getSeconds()}`;
+
+      return {
+        id: b.id,
+        image: response.data.image,
+        name: b.nameCrypto,
+        amount: `-${b.amount}`,
+        date: date,
+        hour: hour,
+      };
+    })
+  );
+
+  let sellCrypto = registerCrypto.filter(b => b.transactionType === 'Sell');
+
+  sellCrypto = await Promise.all(
+    sellCrypto.map(async b => {
+      const response = await axios.get(
+        `https://api.coingecko.com/api/v3/coins/${b.nameCrypto}?localization=false&tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false`
+      );
+
+      let date = `${b.date.getDate()}/${b.date.getMonth()}/${b.date.getFullYear()}`;
+      let hour = `${b.date.getHours()}:${b.date.getMinutes()}:${b.date.getSeconds()}`;
+
+      return {
+        id: b.id,
+        image: response.data.image,
+        name: b.nameCrypto,
+        amount: `+${Number(b.amount) * Number(b.price) * 250}`,
+        date: date,
+        hour: hour,
+      };
+    })
+  );
+
   let movements = {
     recharges: recharges,
     transactionsReceived: transactionsReceived,
     transactionsSent: transactionsSent,
+    buyCrypto: buyCrypto,
+    sellCrypto: sellCrypto,
   };
 
   return movements;
