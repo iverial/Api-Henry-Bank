@@ -21,7 +21,7 @@ async function tranfer(req, res) {
 
     if (savingAccountOrigin.ars >= amount) {
       //transaccion de cuenta de Origen
-      let updateAmountOrigin = savingAccountOrigin.ars - Number(amount);
+      let updateAmountOrigin = Number(savingAccountOrigin.ars) - Number(amount);
       await savingAccountOrigin.update(
         {
           ars: updateAmountOrigin,
@@ -33,7 +33,7 @@ async function tranfer(req, res) {
       });
 
       //transaccion de cuenta de Destiny
-      let updateAmountDestiny = savingAccountDestiny.ars + Number(amount);
+      let updateAmountDestiny = Number(savingAccountDestiny.ars) + Number(amount);
       await savingAccountDestiny.update(
         {
           ars: updateAmountDestiny,
