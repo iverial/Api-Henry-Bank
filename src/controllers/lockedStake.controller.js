@@ -10,7 +10,7 @@ if(savingAccountOrigin.LockedStakeId === null){
 if(savingAccountOrigin.ars >= deposit){
 if(parking === '5 minutes'){
   let start_date = Date.now()
-  const endDate = start_date + 10000
+  const endDate = start_date + 300000
   let updateAmountOrigin = savingAccountOrigin.ars - Number(deposit)
   await savingAccountOrigin.update({
       ars: updateAmountOrigin
@@ -25,7 +25,7 @@ if(parking === '5 minutes'){
  
   let a = setInterval(function(){
   mensaje(endDate)
-}, 10000)
+}, 300000)
  
 async function mensaje(end_date) {
        let time1 = Date.now()
