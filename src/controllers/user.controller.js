@@ -93,7 +93,7 @@ const userMovements = async detail => {
 
     return {
       idOp: t.id,
-      ['image-icon-paper']: 'plus',
+      ['image-icon-paper']: 'plus-circle-outline',
       amount: `+${t.amount}`,
       date: date,
       hour: hour,
@@ -114,7 +114,7 @@ const userMovements = async detail => {
 
       return {
         idOp: t.id,
-        ['image-icon-paper']: 'transfer-up',
+        ['image-icon-paper']: 'arrow-left-bold-circle-outline',
         amount: `-${t.amount}`,
         date: date,
         hour: hour,
@@ -142,7 +142,7 @@ const userMovements = async detail => {
 
       return {
         idOp: t.id,
-        ['image-icon-paper']: 'transfer-down',
+        ['image-icon-paper']: 'arrow-right-bold-circle-outline',
         amount: `+${t.amount}`,
         date: date,
         hour: hour,
@@ -174,6 +174,7 @@ const userMovements = async detail => {
 
       return {
         id: b.id,
+        ['image-icon-paper']: 'arrow-left-bold-circle-outline',
         image: response.data.image,
         name: b.nameCrypto,
         amount: `-${b.amount}`,
@@ -198,6 +199,7 @@ const userMovements = async detail => {
 
       return {
         id: b.id,
+        ['image-icon-paper']: 'arrow-right-bold-circle-outline',
         image: response.data.image,
         name: b.nameCrypto,
         amount: `+${Number(b.amount) * Number(b.price) * 250}`,
@@ -223,15 +225,15 @@ const userMovements = async detail => {
 
     return {
       idOp: r.id,
-      image: 'image',
-      deposit: `-${r.deposit}`,
+      ['image-icon-paper']: 'arrow-left-bold-circle-outline',
+      amount: `-${r.deposit}`,
       date: date,
       hour: hour,
     };
   });
 
   let finalizedLockedStake = registerLockedStake.filter(
-    r => r.transactionType === 'pending'
+    r => r.transactionType === 'finalized'
   );
 
   finalizedLockedStake = finalizedLockedStake.map(r => {
@@ -239,8 +241,8 @@ const userMovements = async detail => {
     let hour = r.end_date.split(' ')[1];
     return {
       idOp: r.id,
-      image: 'image',
-      deposit: `+${r.deposit}`,
+      ['image-icon-paper']: 'arrow-right-bold-circle-outline',
+      amount: `+${r.deposit}`,
       date: date,
       hour: hour,
     };
