@@ -94,7 +94,7 @@ const lockedStake = async (req, res) => {
               account: AccountId,
               parking,
               transactionType,
-              deposit: updateAmountOrigin,
+              deposit: roiF,
               end_date,
             });
 
