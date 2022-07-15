@@ -4,13 +4,13 @@ let AccountDestiny = {};
 async function searchAccount(req, res) {
   const { cbu, alias } = req.body;
 
-  if (typeof cbu !== 'string')
-    res.status(400).json({ msg: 'El cbu tiene que ser un string' });
+  if (!cbu && !alias)
+    res.status(404).json({ msg: 'No se ingreso el alias o el cbu' });
   else {
-    if (!cbu && !alias)
-      res.status(404).json({ msg: 'No se ingreso el alias o el cbu' });
-    else {
-      if (cbu) {
+    if (cbu) {
+      if (typeof cbu !== 'string')
+        res.status(400).json({ msg: 'El cbu tiene que ser un string' });
+      else {
         const findCbu = await Account.findOne({ where: { cbu } });
         if (findCbu) {
           AccountDestiny.Account = findCbu;
@@ -22,8 +22,14 @@ async function searchAccount(req, res) {
         } else {
           res.status(400).json({ msg: 'No se encontro el cbu' });
         }
-      } else if (alias) {
+      }
+    } else if (alias) {
+      if (typeof alias !== 'string')
+        res.status(400).json({ msg: 'El alias tiene que ser un string' });
+      else {
         const findAlias = await Account.findOne({ where: { alias } });
+
+        console.log(findAlias);
 
         if (findAlias) {
           res.status(200).json({

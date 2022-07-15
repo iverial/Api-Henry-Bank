@@ -19,7 +19,7 @@ async function tranfer(req, res) {
       where: { id: AccountDestiny.Account.SavingAccountId },
     });
 
-    if (savingAccountOrigin.ars >= amount) {
+    if (Number(savingAccountOrigin.ars) >= Number(amount)) {
       //transaccion de cuenta de Origen
       let updateAmountOrigin = Number(savingAccountOrigin.ars) - Number(amount);
       await savingAccountOrigin.update(
@@ -33,7 +33,8 @@ async function tranfer(req, res) {
       });
 
       //transaccion de cuenta de Destiny
-      let updateAmountDestiny = Number(savingAccountDestiny.ars) + Number(amount);
+      let updateAmountDestiny =
+        Number(savingAccountDestiny.ars) + Number(amount);
       await savingAccountDestiny.update(
         {
           ars: updateAmountDestiny,
