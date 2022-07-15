@@ -8,6 +8,7 @@ const {
   RegisterRecharge,
   RegisterTransaction,
   RegisterCrypto,
+  RegisterLockedStake,
 } = require('../db.js');
 
 const allUsers = async () => {
@@ -85,7 +86,9 @@ const userMovements = async detail => {
   });
 
   recharges = recharges.map(t => {
-    let date = `${t.date.getDate()}/${t.date.getMonth()}/${t.date.getFullYear()}`;
+    let date = `${t.date.getDate()}/${
+      t.date.getMonth() + 1
+    }/${t.date.getFullYear()}`;
     let hour = `${t.date.getHours()}:${t.date.getMinutes()}:${t.date.getSeconds()}`;
 
     return {
@@ -104,7 +107,9 @@ const userMovements = async detail => {
   transactionsSent = await Promise.all(
     transactionsSent.map(async t => {
       let accountDestiny = await Account.findByPk(t.accountDestiny);
-      let date = `${t.date.getDate()}/${t.date.getMonth()}/${t.date.getFullYear()}`;
+      let date = `${t.date.getDate()}/${
+        t.date.getMonth() + 1
+      }/${t.date.getFullYear()}`;
       let hour = `${t.date.getHours()}:${t.date.getMinutes()}:${t.date.getSeconds()}`;
 
       return {
@@ -130,7 +135,9 @@ const userMovements = async detail => {
   transactionsReceived = await Promise.all(
     transactionsReceived.map(async t => {
       let accountOrigin = await Account.findByPk(t.accountOrigin);
-      let date = `${t.date.getDate()}/${t.date.getMonth()}/${t.date.getFullYear()}`;
+      let date = `${t.date.getDate()}/${
+        t.date.getMonth() + 1
+      }/${t.date.getFullYear()}`;
       let hour = `${t.date.getHours()}:${t.date.getMinutes()}:${t.date.getSeconds()}`;
 
       return {
@@ -149,7 +156,9 @@ const userMovements = async detail => {
     })
   );
 
-  const registerCrypto = await RegisterCrypto.findAll();
+  const registerCrypto = await RegisterCrypto.findAll({
+    where: { account: detail.AccountId },
+  });
 
   let buyCrypto = registerCrypto.filter(b => b.transactionType === 'Buy');
 
@@ -158,7 +167,9 @@ const userMovements = async detail => {
       const response = await axios.get(
         `https://api.coingecko.com/api/v3/coins/${b.nameCrypto}?localization=false&tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false`
       );
-      let date = `${b.date.getDate()}/${b.date.getMonth()}/${b.date.getFullYear()}`;
+      let date = `${b.date.getDate()}/${
+        b.date.getMonth() + 1
+      }/${b.date.getFullYear()}`;
       let hour = `${b.date.getHours()}:${b.date.getMinutes()}:${b.date.getSeconds()}`;
 
       return {
@@ -180,7 +191,9 @@ const userMovements = async detail => {
         `https://api.coingecko.com/api/v3/coins/${b.nameCrypto}?localization=false&tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false`
       );
 
-      let date = `${b.date.getDate()}/${b.date.getMonth()}/${b.date.getFullYear()}`;
+      let date = `${b.date.getDate()}/${
+        b.date.getMonth() + 1
+      }/${b.date.getFullYear()}`;
       let hour = `${b.date.getHours()}:${b.date.getMinutes()}:${b.date.getSeconds()}`;
 
       return {
@@ -194,12 +207,53 @@ const userMovements = async detail => {
     })
   );
 
+  const registerLockedStake = await RegisterLockedStake.findAll({
+    where: { account: detail.AccountId },
+  });
+
+  let pendingLockedStake = registerLockedStake.filter(
+    r => r.transactionType === 'pending'
+  );
+
+  pendingLockedStake = pendingLockedStake.map(r => {
+    let date = `${r.start_date.getDate()}/${
+      r.start_date.getMonth() + 1
+    }/${r.start_date.getFullYear()}`;
+    let hour = `${r.start_date.getHours()}:${r.start_date.getMinutes()}:${r.start_date.getSeconds()}`;
+
+    return {
+      idOp: r.id,
+      image: 'image',
+      deposit: `-${r.deposit}`,
+      date: date,
+      hour: hour,
+    };
+  });
+
+  let finalizedLockedStake = registerLockedStake.filter(
+    r => r.transactionType === 'pending'
+  );
+
+  finalizedLockedStake = finalizedLockedStake.map(r => {
+    let date = r.end_date.split(' ')[0];
+    let hour = r.end_date.split(' ')[1];
+    return {
+      idOp: r.id,
+      image: 'image',
+      deposit: `+${r.deposit}`,
+      date: date,
+      hour: hour,
+    };
+  });
+
   let movements = {
     recharges: recharges,
     transactionsReceived: transactionsReceived,
     transactionsSent: transactionsSent,
     buyCrypto: buyCrypto,
     sellCrypto: sellCrypto,
+    pendingLockedStake: pendingLockedStake,
+    finalizedLockedStake: finalizedLockedStake,
   };
 
   return movements;

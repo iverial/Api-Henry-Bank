@@ -9,6 +9,9 @@ module.exports = sequelize => {
         primaryKey: true,
         autoIncrement: true,
       },
+      account: {
+        type: DataTypes.INTEGER,
+      },
       roi: {
         type: DataTypes.STRING,
       },
