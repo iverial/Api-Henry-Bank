@@ -4,7 +4,13 @@ module.exports = (sequelize) => {
   sequelize.define(
     'RegisterCrypto',
     {
-        account: {
+      id: {
+        type: DataTypes.UUID,
+        primaryKey: true,
+        defaultValue: DataTypes.UUIDV4,
+        unique: true,
+      },
+      account: {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
@@ -30,6 +36,6 @@ module.exports = (sequelize) => {
       createdAt: 'date',
       updatedAt: false,
     }
- );
-  
+  );
+
 };
