@@ -24,7 +24,7 @@ module.exports = sequelize => {
         type: DataTypes.STRING,
       },
       deposit: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.DECIMAL,
       },
       end_date: {
         type: DataTypes.STRING,
