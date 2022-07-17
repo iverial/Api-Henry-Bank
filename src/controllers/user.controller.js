@@ -1,5 +1,8 @@
 const axios = require('axios');
 
+const SECRET_KEY = "sk_test_51LLqmtH8Bu4sbaZfofNA776ESH1U3jJTXU5itrs9Vg2iZgkQVXSEWa090WI6ebG44BoVjP9vsiBcJVV092JDDwb100ZFXvY6B6";
+const Stripe = require("stripe")
+const stripe = Stripe(SECRET_KEY);
 const {
   User,
   Nationality,
@@ -76,8 +79,15 @@ const userRecharge = async (amount, detail) => {
     account: detail.AccountId,
     amount: amount,
   });
+  const paymentIntent = await stripe.paymentIntents.create({
+    amount: amount * 100,
+    currency: "ars",
+    payment_method_types: ["card"], //by default
+  });
 
-  return { message: 'Recharge successful' };
+  const clientSecret = paymentIntent.client_secret;
+
+  return { message: 'Recharge successful', clientSecret: clientSecret };
 };
 
 const userMovements = async detail => {
@@ -86,9 +96,8 @@ const userMovements = async detail => {
   });
 
   recharges = recharges.map(t => {
-    let date = `${t.date.getDate()}/${
-      t.date.getMonth() + 1
-    }/${t.date.getFullYear()}`;
+    let date = `${t.date.getDate()}/${t.date.getMonth() + 1
+      }/${t.date.getFullYear()}`;
     let hour = `${t.date.getHours()}:${t.date.getMinutes()}:${t.date.getSeconds()}`;
 
     return {
@@ -107,9 +116,8 @@ const userMovements = async detail => {
   transactionsSent = await Promise.all(
     transactionsSent.map(async t => {
       let accountDestiny = await Account.findByPk(t.accountDestiny);
-      let date = `${t.date.getDate()}/${
-        t.date.getMonth() + 1
-      }/${t.date.getFullYear()}`;
+      let date = `${t.date.getDate()}/${t.date.getMonth() + 1
+        }/${t.date.getFullYear()}`;
       let hour = `${t.date.getHours()}:${t.date.getMinutes()}:${t.date.getSeconds()}`;
 
       return {
@@ -135,9 +143,8 @@ const userMovements = async detail => {
   transactionsReceived = await Promise.all(
     transactionsReceived.map(async t => {
       let accountOrigin = await Account.findByPk(t.accountOrigin);
-      let date = `${t.date.getDate()}/${
-        t.date.getMonth() + 1
-      }/${t.date.getFullYear()}`;
+      let date = `${t.date.getDate()}/${t.date.getMonth() + 1
+        }/${t.date.getFullYear()}`;
       let hour = `${t.date.getHours()}:${t.date.getMinutes()}:${t.date.getSeconds()}`;
 
       return {
@@ -167,9 +174,8 @@ const userMovements = async detail => {
       const response = await axios.get(
         `https://api.coingecko.com/api/v3/coins/${b.nameCrypto}?localization=false&tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false`
       );
-      let date = `${b.date.getDate()}/${
-        b.date.getMonth() + 1
-      }/${b.date.getFullYear()}`;
+      let date = `${b.date.getDate()}/${b.date.getMonth() + 1
+        }/${b.date.getFullYear()}`;
       let hour = `${b.date.getHours()}:${b.date.getMinutes()}:${b.date.getSeconds()}`;
 
       return {
@@ -192,9 +198,8 @@ const userMovements = async detail => {
         `https://api.coingecko.com/api/v3/coins/${b.nameCrypto}?localization=false&tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false`
       );
 
-      let date = `${b.date.getDate()}/${
-        b.date.getMonth() + 1
-      }/${b.date.getFullYear()}`;
+      let date = `${b.date.getDate()}/${b.date.getMonth() + 1
+        }/${b.date.getFullYear()}`;
       let hour = `${b.date.getHours()}:${b.date.getMinutes()}:${b.date.getSeconds()}`;
 
       return {
@@ -218,9 +223,8 @@ const userMovements = async detail => {
   );
 
   pendingLockedStake = pendingLockedStake.map(r => {
-    let date = `${r.start_date.getDate()}/${
-      r.start_date.getMonth() + 1
-    }/${r.start_date.getFullYear()}`;
+    let date = `${r.start_date.getDate()}/${r.start_date.getMonth() + 1
+      }/${r.start_date.getFullYear()}`;
     let hour = `${r.start_date.getHours()}:${r.start_date.getMinutes()}:${r.start_date.getSeconds()}`;
 
     return {
@@ -279,6 +283,7 @@ module.exports = {
   userRecharge: async (req, res) => {
     const recharge = await userRecharge(req.body.amount, req.user.dataValues);
     res.send(recharge);
+
   },
 
   userMovements: async (req, res) => {
