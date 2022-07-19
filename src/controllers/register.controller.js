@@ -23,79 +23,85 @@ let generateAlias = (email) => {
 // Register Method for the User
 //############################################################################################
 const register = async (req, res) => {
-  let {
-    identity,
-    name,
-    lastName,
-    dateOfBirth,
-    gender,
-    email,
-    city,
-    address,
-    nationality,
-  } = req.body;
-  let password = hashSync(req.body.password, 10);
+  try {
 
-  if (
-    !email.match(
-      /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
-    )
-  ) {
-    return res.status(400).json({
-      error: 'Email is not valid',
-    });
-  }
-
-  // Check if theres a User with the same identity or email, if it is, dont create
-
-  if (
-    !(await User.findOne({ where: { email } })) &&
-    !(await User.findOne({ where: { identity } }))
-  ) {
-    const user = await User.create({
+    let {
       identity,
       name,
       lastName,
       dateOfBirth,
       gender,
       email,
-      password,
       city,
       address,
-    });
+      nationality,
+    } = req.body;
+    let password = hashSync(req.body.password, 10);
 
-    const account = await Account.create({
-      cbu: generateCBU(),
-      alias: generateAlias(email),
-      name: name,
-      lastName: lastName,
-      balance: 0,
-      contacts: email,
-    });
-    account.setUser(user);
+    if (
+      !email.match(
+        /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
+      )
+    ) {
+      return res.status(400).json({
+        error: 'Email is not valid',
+      });
+    }
 
-    const [nation, created] = await Nationality.findOrCreate({
-      where: { name: nationality },
-      defaults: {
-        name: nationality,
-      },
-    });
+    // Check if theres a User with the same identity or email, if it is, dont create
 
-    nation.addUser(user);
+    if (
+      !(await User.findOne({ where: { email } })) &&
+      !(await User.findOne({ where: { identity } }))
+    ) {
+      const user = await User.create({
+        identity,
+        name,
+        lastName,
+        dateOfBirth,
+        gender,
+        email,
+        password,
+        city,
+        address,
+      });
 
-    const savingAccount = await SavingAccount.create({
-      ars: 0,
-      usd: 0,
-    });
+      const account = await Account.create({
+        cbu: generateCBU(),
+        alias: generateAlias(email),
+        name: name,
+        lastName: lastName,
+        balance: 0,
+        contacts: email,
+      });
+      account.setUser(user);
 
-    account.setSavingAccount(savingAccount);
+      const [nation, created] = await Nationality.findOrCreate({
+        where: { name: nationality },
+        defaults: {
+          name: nationality,
+        },
+      });
 
-    res.send({
-      msg: 'Usuario y cuenta creados',
-      email: user.email,
-      account,
-    });
-  } else res.send({ msg: 'Usuario ya existe' });
+      nation.addUser(user);
+
+      const savingAccount = await SavingAccount.create({
+        ars: 0,
+        usd: 0,
+      });
+
+      account.setSavingAccount(savingAccount);
+
+      res.send({
+        msg: 'Usuario y cuenta creados',
+        email: user.email,
+        account,
+      });
+    } else res.send({ msg: 'Usuario ya existe' });
+
+  } catch (error) {
+    console.log(error.message);
+  }
 };
 
 module.exports = register;

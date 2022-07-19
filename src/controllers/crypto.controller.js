@@ -222,36 +222,57 @@ const profileBalance = async (AccountId) => {
 };
 
 module.exports = {
-  crypto: async (req, res) => {
-    const response = await allCryptos();
 
-    res.status(200).json(response);
+  crypto: async (req, res) => {
+    try {
+      const response = await allCryptos();
+      res.status(200).json(response);
+    } catch (error) {
+      res.status(404).console.log(error.message);
+    }
   },
 
   profileBalance: async (req, res) => {
-    const { AccountId } = req.user;
-    const response = await profileBalance(AccountId);
-    res.send(response);
-  },
+    try {
+      const { AccountId } = req.user;
+      const response = await profileBalance(AccountId);
+      res.send(response);
+    } catch (error) {
+      res.status(404).console.log(error.message);
+    }
+  }
+  ,
 
   buyCrypto: async (req, res) => {
-    const { amount, crypto, price } = req.body;
-    const { AccountId } = req.user;
-    const resp = await buyCrypto(amount, crypto, price, AccountId);
-    res.json(resp);
+    try {
+      const { amount, crypto, price } = req.body;
+      const { AccountId } = req.user;
+      const resp = await buyCrypto(amount, crypto, price, AccountId);
+      res.json(resp);
+    } catch (error) {
+      res.status(404).console.log(error.message);
+    }
   },
 
   sellCrypto: async (req, res) => {
-    const { amount, crypto, price } = req.body;
-    const { AccountId } = req.user;
+    try {
+      const { amount, crypto, price } = req.body;
+      const { AccountId } = req.user;
 
-    const resp = await sellCrypto(amount, crypto, price, AccountId);
-    res.json(resp);
+      const resp = await sellCrypto(amount, crypto, price, AccountId);
+      res.json(resp);
+    } catch (error) {
+      res.status(404).console.log("error: error.message ");
+    }
   },
 
   getCryptoPrices: async (req, res) => {
-    const { crypto } = req.params;
-    const response = await getCryptoPrices(crypto);
-    res.send(response);
+    try {
+      const { crypto } = req.params;
+      const response = await getCryptoPrices(crypto);
+      res.send(response);
+    } catch (error) {
+      console.log(error.message);
+    }
   },
 };
