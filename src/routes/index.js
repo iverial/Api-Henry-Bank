@@ -31,9 +31,11 @@ const registerRouter = require('./register.router.js');
 const userRouter = require('./user.router.js');
 const lockedStake = require('./lockedStake.router.js');
 const cryptoRouter = require('./crypto.router.js');
-const userEmail = require('./userEmail.router')
+const userEmail = require('./userEmail.router');
 const searchAccount = require('./searchAccount.router.js');
+const adminRouter = require('./admin.router.js');
 const forgetPassword = require('./forgetPassword.router.js')
+
 
 
 // const temperamentsRouter = require('./temperamentsRouter/router.js');
@@ -64,12 +66,18 @@ router.use(
   forgetPassword
 );
 
-router.use('/userEmail', userEmail)
+router.use('/userEmail', userEmail);
 
 router.use(
   '/search',
   passport.authenticate('jwt', { session: false }),
   searchAccount
+);
+
+router.use(
+  '/admin',
+  passport.authenticate('jwt', { session: false }),
+  adminRouter
 );
 
 module.exports = router;
