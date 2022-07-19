@@ -1,8 +1,8 @@
-const DataTypes = require('sequelize');
+const { DataTypes } = require('sequelize');
 
-module.exports = sequelize => {
+module.exports = (sequelize) => {
   sequelize.define(
-    'RegisterTransaction',
+    'RegisterCrypto',
     {
       id: {
         type: DataTypes.UUID,
@@ -10,17 +10,21 @@ module.exports = sequelize => {
         defaultValue: DataTypes.UUIDV4,
         unique: true,
       },
-      accountOrigin: {
+      account: {
         type: DataTypes.INTEGER,
+        allowNull: false,
       },
-      amountOrigin: {
+      nameCrypto: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      transactionType: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      price: {
         type: DataTypes.DECIMAL,
-      },
-      accountDestiny: {
-        type: DataTypes.INTEGER,
-      },
-      amountDestiny: {
-        type: DataTypes.DECIMAL,
+        allowNull: false,
       },
       amount: {
         type: DataTypes.DECIMAL,
@@ -28,9 +32,10 @@ module.exports = sequelize => {
       },
     },
     {
-      timestamp: true,
+      createdAt: false,
       createdAt: 'date',
       updatedAt: false,
     }
   );
+
 };

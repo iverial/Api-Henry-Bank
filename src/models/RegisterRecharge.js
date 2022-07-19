@@ -2,7 +2,7 @@ const DataTypes = require('sequelize');
 
 module.exports = sequelize => {
   sequelize.define(
-    'RegisterTransaction',
+    'RegisterRecharge',
     {
       id: {
         type: DataTypes.UUID,
@@ -10,17 +10,8 @@ module.exports = sequelize => {
         defaultValue: DataTypes.UUIDV4,
         unique: true,
       },
-      accountOrigin: {
+      account: {
         type: DataTypes.INTEGER,
-      },
-      amountOrigin: {
-        type: DataTypes.DECIMAL,
-      },
-      accountDestiny: {
-        type: DataTypes.INTEGER,
-      },
-      amountDestiny: {
-        type: DataTypes.DECIMAL,
       },
       amount: {
         type: DataTypes.DECIMAL,

@@ -1,8 +1,8 @@
-const DataTypes = require('sequelize');
+const { DataTypes } = require('sequelize');
 
 module.exports = sequelize => {
   sequelize.define(
-    'RegisterTransaction',
+    'RegisterLockedStake',
     {
       id: {
         type: DataTypes.UUID,
@@ -10,26 +10,29 @@ module.exports = sequelize => {
         defaultValue: DataTypes.UUIDV4,
         unique: true,
       },
-      accountOrigin: {
+      account: {
         type: DataTypes.INTEGER,
       },
-      amountOrigin: {
-        type: DataTypes.DECIMAL,
+      roi: {
+        type: DataTypes.STRING,
       },
-      accountDestiny: {
-        type: DataTypes.INTEGER,
-      },
-      amountDestiny: {
-        type: DataTypes.DECIMAL,
-      },
-      amount: {
-        type: DataTypes.DECIMAL,
+      transactionType: {
+        type: DataTypes.STRING,
         allowNull: false,
+      },
+      parking: {
+        type: DataTypes.STRING,
+      },
+      deposit: {
+        type: DataTypes.DECIMAL,
+      },
+      end_date: {
+        type: DataTypes.STRING,
       },
     },
     {
       timestamp: true,
-      createdAt: 'date',
+      createdAt: 'start_date',
       updatedAt: false,
     }
   );

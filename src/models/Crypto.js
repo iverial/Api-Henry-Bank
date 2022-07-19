@@ -1,6 +1,6 @@
 const { DataTypes } = require('sequelize');
 
-module.exports = sequelize => {
+module.exports = (sequelize) => {
   sequelize.define(
     'Crypto',
     {
@@ -18,12 +18,10 @@ module.exports = sequelize => {
       name: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true,
       },
-      simbol: {
-        type: DataTypes.STRING,
+      buyPrice: {
+        type: DataTypes.DECIMAL,
         allowNull: false,
-        unique: true,
       },
     },
     {
