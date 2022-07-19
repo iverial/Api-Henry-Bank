@@ -33,6 +33,7 @@ const lockedStake = require('./lockedStake.router.js');
 const cryptoRouter = require('./crypto.router.js');
 const userEmail = require('./userEmail.router')
 const searchAccount = require('./searchAccount.router.js');
+const forgetPassword = require('./forgetPassword.router.js')
 
 
 // const temperamentsRouter = require('./temperamentsRouter/router.js');
@@ -56,6 +57,11 @@ router.use(
   '/lockedStake',
   passport.authenticate('jwt', { session: false }),
   lockedStake
+);
+router.use(
+  '/forgetPassword',
+  passport.authenticate('jwt', { session: false }),
+  forgetPassword
 );
 
 router.use('/userEmail', userEmail)
