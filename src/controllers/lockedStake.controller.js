@@ -129,6 +129,7 @@ const lockedStake = async (req, res) => {
         });
         const locked = await LockedStake.create({
           roi,
+          account: AccountId,
           parking,
           transactionType,
           deposit,
