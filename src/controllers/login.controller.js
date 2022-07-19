@@ -6,23 +6,27 @@ require('dotenv').config();
 const SECRET = process.env.SECRET;
 
 const login = async (req, res) => {
-  const { email, password } = req.body;
-  const user = await User.findOne({ where: { email } });
+  try {
+    const { email, password } = req.body;
+    const user = await User.findOne({ where: { email } });
 
-  if (!user) {
-    res.send({ msg: 'Usuario no existe' });
-  } else if (!compareSync(password, user.password)) {
-    res.send({ msg: 'Contraseña incorrecta' });
-  } else {
-    // JSON WEB TOKEN generation
-    const payload = {
-      email: user.email,
-      password: user.password,
-    };
+    if (!user) {
+      res.send({ msg: 'Usuario no existe' });
+    } else if (!compareSync(password, user.password)) {
+      res.send({ msg: 'Contraseña incorrecta' });
+    } else {
+      // JSON WEB TOKEN generation
+      const payload = {
+        email: user.email,
+        password: user.password,
+      };
 
-    const token = jwt.sign(payload, SECRET, { expiresIn: '2d' });
+      const token = jwt.sign(payload, SECRET, { expiresIn: '2d' });
 
-    res.send({ msg: 'Login correcto', token: 'Bearer ' + token });
+      res.send({ msg: 'Login correcto', token: 'Bearer ' + token });
+    }
+  } catch (error) {
+    res.status(404).console.log(error.message);
   }
 };
 
