@@ -272,7 +272,7 @@ module.exports = {
       const response = await getCryptoPrices(crypto);
       res.send(response);
     } catch (error) {
-      res.status(404).console.log(error.message);
+      console.log(error.message);
     }
   },
 };

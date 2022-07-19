@@ -100,7 +100,7 @@ const register = async (req, res) => {
     } else res.send({ msg: 'Usuario ya existe' });
 
   } catch (error) {
-    res.status(404).console.log(error.message);
+    console.log(error.message);
   }
 };
 
