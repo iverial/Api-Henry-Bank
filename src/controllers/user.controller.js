@@ -59,7 +59,7 @@ detailUser = async detail => {
     nationality: nationality.name,
     cbu: account.cbu,
     alias: account.alias,
-    balance: account.balance,
+    balance: Number(account.balance),
   };
   console.log(allDetail);
 
