@@ -2,6 +2,7 @@ const {
   LockedStake,
   RegisterTransaction,
   RegisterCrypto,
+  User,
 } = require('../db.js');
 
 const registerLockedStake = async () => {
@@ -65,5 +66,22 @@ module.exports = {
     } catch (error) {
        res.send(error.message) 
     }
-  }  
+  },
+  
+  addAdmin: async (req, res) => {
+    try {
+      const { email } = req.body
+      let user = await User.findOne({where: {email: email}})
+      if(!user){
+        res.status(404).send("el usuario no existe")
+      } else {
+        await user.update({
+       role: 'admin'
+   })
+     res.send("cuenta deshabilitada con exito.")  
+   }
+    } catch (error) {
+       res.send(error.message) 
+    }
+  },
 };
