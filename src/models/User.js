@@ -52,14 +52,18 @@ module.exports = sequelize => {
       email: {
         type: DataTypes.STRING,
         allowNull: false,
-        validate:{
-          isEmail : true
-      }
+        validate: {
+          isEmail: true
+        }
       },
       password: {
         type: DataTypes.STRING,
         allowNull: false,
       },
+      role: {
+        type: DataTypes.STRING,
+        defaultValue: 'user'
+      }
     },
     {
       createdAt: false,
