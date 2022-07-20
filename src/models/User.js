@@ -63,7 +63,11 @@ module.exports = sequelize => {
       role: {
         type: DataTypes.STRING,
         defaultValue: 'user'
-      }
+      },
+      state: {
+        type: DataTypes.STRING,
+        defaultValue: 'online',      
+      },
     },
     {
       createdAt: false,

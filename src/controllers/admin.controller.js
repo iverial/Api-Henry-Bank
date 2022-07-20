@@ -58,12 +58,12 @@ module.exports = {
         res.status(404).send("el usuario no existe")
       } else {
         await user.update({
-       role: 'disabled'
+       state: 'disabled'
    })
      res.send("cuenta deshabilitada con exito.")  
    }
     } catch (error) {
-       res.send(error) 
+       res.send(error.message) 
     }
   }  
 };
