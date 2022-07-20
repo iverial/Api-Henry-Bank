@@ -3,10 +3,9 @@ const { hashSync, compareSync } = require('bcrypt');
 
 const forgetPassword = async (req, res) => {
     try {
-        const { identity } = req.user;
-        const { password } = req.body;
+        const { password, identity, email } = req.body;
         let passwordhash = hashSync(password, 10);
-        let usuario = await User.findOne({where: {identity: identity}})
+        let usuario = await User.findOne({where: {identity: identity}, where: {email: email}})
         await usuario.update({
             password: passwordhash
         })

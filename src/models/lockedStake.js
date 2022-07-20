@@ -5,9 +5,14 @@ module.exports = sequelize => {
     'LockedStake',
     {
       id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.UUID,
         primaryKey: true,
-        autoIncrement: true,
+        defaultValue: DataTypes.UUIDV4,
+        unique: true,
+      },
+      account: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
       },
       transactionType: {
         type: DataTypes.STRING,
