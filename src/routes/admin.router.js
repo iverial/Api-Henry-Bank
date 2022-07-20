@@ -6,7 +6,8 @@ const {
   registerTransaction,
   registerCryptos,
   disabledUser,
-  addAdmin,
+  enableUser,
+  userToAdmin,
 } = require('../controllers/admin.controller.js');
 
 router.get('/lockedStake', registerLockedStake);
@@ -15,9 +16,11 @@ router.get('/transactions', registerTransaction);
 
 router.get('/cryptos', registerCryptos);
 
-router.put('/disabledUser', disabledUser)
+router.put('/enableUser', enableUser);
 
-router.put('/addAdmin', addAdmin)
+router.put('/disabledUser', disabledUser);
+
+router.put('/userToAdmin', userToAdmin);
 
 
 module.exports = router;
