@@ -8,15 +8,15 @@ const forgetPassword = async (req, res) => {
         let finduserByidentity = await User.findOne({where: {identity: identity}})
         let usuario = await User.findOne({where: {email: email}})
         if(!finduserByidentity || !usuario){
-            res.status(404).send("el usuario no existe")
+            res.send("el usuario no existe")
         } else {
              await usuario.update({
             password: passwordhash
         })
-        res.send("password actualizada con exito.")
-      }
+        res.send("password actualizada con exito.")  
+        }
     } catch (error) {
-       console.log(error)
+       console.log(error.mesagge)
     }
 };
 
