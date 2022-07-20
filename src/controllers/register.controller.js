@@ -1,5 +1,5 @@
 const { hashSync, compareSync } = require('bcrypt');
-const { User, Account, Nationality, SavingAccount } = require('../db.js');
+const { User, Account, Nationality, SavingAccount, Role } = require('../db.js');
 const jwt = require('jsonwebtoken');
 
 // ############################################################################################
@@ -35,6 +35,7 @@ const register = async (req, res) => {
       city,
       address,
       nationality,
+      role
     } = req.body;
     let password = hashSync(req.body.password, 10);
 
@@ -65,6 +66,9 @@ const register = async (req, res) => {
         city,
         address,
       });
+
+      let dbRoles = await Role.findOne({ where: { role: 'user' } })
+      await user.addRole(dbRoles);
 
       const account = await Account.create({
         cbu: generateCBU(),
