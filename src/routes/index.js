@@ -58,11 +58,7 @@ router.use(
   passport.authenticate('jwt', { session: false }),
   lockedStake
 );
-router.use(
-  '/forgetPassword',
-  passport.authenticate('jwt', { session: false }),
-  forgetPassword
-);
+router.use('/forgetPassword', forgetPassword);
 
 router.use('/userEmail', userEmail)
 
