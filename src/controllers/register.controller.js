@@ -24,7 +24,6 @@ let generateAlias = (email) => {
 //############################################################################################
 const register = async (req, res) => {
   try {
-
     let {
       identity,
       name,
@@ -37,6 +36,15 @@ const register = async (req, res) => {
       nationality,
       role
     } = req.body;
+
+    //Validate if password is strong (at least eight characters, one uppercase, one lowercase and one number)
+    if (!req.body.password.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/)) {
+      return res.status(400).json({
+        message:
+          'Password must be at least 8 characters, one uppercase, one lowercase and one number',
+      });
+    }
+
     let password = hashSync(req.body.password, 10);
 
     if (
@@ -102,7 +110,6 @@ const register = async (req, res) => {
         account,
       });
     } else res.send({ msg: 'Usuario ya existe' });
-
   } catch (error) {
     console.log(error.message);
   }

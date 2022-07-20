@@ -25,7 +25,7 @@ const allUsers = async () => {
     ],
   });
 
-  users = users.map(u => {
+  users = users.map((u) => {
     return {
       id: u.id,
       image: u.image,
@@ -42,7 +42,7 @@ const allUsers = async () => {
   return users;
 };
 
-detailUser = async detail => {
+detailUser = async (detail) => {
   const nationality = await Nationality.findByPk(detail.NationalityId);
   const account = await Account.findByPk(detail.AccountId);
 
@@ -71,6 +71,8 @@ const userRecharge = async (amount, detail) => {
   const saving = await SavingAccount.findByPk(account.SavingAccountId);
 
   if (!account) throw new Error({ message: 'Account not found' });
+  if (amount < 100)
+    throw new Error({ message: 'Amount must be greater than 100' });
 
   const newBalance = Number(account.balance) + Number(amount);
   await account.update({ balance: newBalance });
@@ -91,12 +93,12 @@ const userRecharge = async (amount, detail) => {
   return { message: 'Recharge successful', clientSecret: clientSecret };
 };
 
-const userMovements = async detail => {
+const userMovements = async (detail) => {
   let recharges = await RegisterRecharge.findAll({
     where: { account: detail.AccountId },
   });
 
-  recharges = recharges.map(t => {
+  recharges = recharges.map((t) => {
     let date = `${t.date.getDate()}/${
       t.date.getMonth() + 1
     }/${t.date.getFullYear()}`;
@@ -116,7 +118,7 @@ const userMovements = async detail => {
   });
 
   transactionsSent = await Promise.all(
-    transactionsSent.map(async t => {
+    transactionsSent.map(async (t) => {
       let accountDestiny = await Account.findByPk(t.accountDestiny);
       let date = `${t.date.getDate()}/${
         t.date.getMonth() + 1
@@ -144,7 +146,7 @@ const userMovements = async detail => {
   });
 
   transactionsReceived = await Promise.all(
-    transactionsReceived.map(async t => {
+    transactionsReceived.map(async (t) => {
       let accountOrigin = await Account.findByPk(t.accountOrigin);
       let date = `${t.date.getDate()}/${
         t.date.getMonth() + 1
@@ -171,10 +173,10 @@ const userMovements = async detail => {
     where: { account: detail.AccountId },
   });
 
-  let buyCrypto = registerCrypto.filter(b => b.transactionType === 'Buy');
+  let buyCrypto = registerCrypto.filter((b) => b.transactionType === 'Buy');
 
   buyCrypto = await Promise.all(
-    buyCrypto.map(async b => {
+    buyCrypto.map(async (b) => {
       const response = await axios.get(
         `https://api.coingecko.com/api/v3/coins/${b.nameCrypto}?localization=false&tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false`
       );
@@ -195,10 +197,10 @@ const userMovements = async detail => {
     })
   );
 
-  let sellCrypto = registerCrypto.filter(b => b.transactionType === 'Sell');
+  let sellCrypto = registerCrypto.filter((b) => b.transactionType === 'Sell');
 
   sellCrypto = await Promise.all(
-    sellCrypto.map(async b => {
+    sellCrypto.map(async (b) => {
       const response = await axios.get(
         `https://api.coingecko.com/api/v3/coins/${b.nameCrypto}?localization=false&tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false`
       );
@@ -225,10 +227,10 @@ const userMovements = async detail => {
   });
 
   let pendingLockedStake = registerLockedStake.filter(
-    r => r.transactionType === 'pending'
+    (r) => r.transactionType === 'pending'
   );
 
-  pendingLockedStake = pendingLockedStake.map(r => {
+  pendingLockedStake = pendingLockedStake.map((r) => {
     let date = `${r.start_date.getDate()}/${
       r.start_date.getMonth() + 1
     }/${r.start_date.getFullYear()}`;
@@ -244,10 +246,10 @@ const userMovements = async detail => {
   });
 
   let finalizedLockedStake = registerLockedStake.filter(
-    r => r.transactionType === 'finalized'
+    (r) => r.transactionType === 'finalized'
   );
 
-  finalizedLockedStake = finalizedLockedStake.map(r => {
+  finalizedLockedStake = finalizedLockedStake.map((r) => {
     let date = r.end_date.split(' ')[0];
     let hour = r.end_date.split(' ')[1];
     return {
