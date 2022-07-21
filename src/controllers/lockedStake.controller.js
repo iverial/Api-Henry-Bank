@@ -20,11 +20,6 @@ const lockedStake = async (req, res) => {
     },
   });
 
-  console.log(status);
-
-  if (status[0]) {
-    res.send('plazo fijo activo');
-  } else {
     if (savingAccountOrigin.ars >= deposit) {
       if (parking === '5 minutes') {
         let start_date = Date.now();
@@ -141,7 +136,6 @@ const lockedStake = async (req, res) => {
     } else if (savingAccountOrigin.ars < deposit) {
       res.send('No tienes el dinero suficiente para invertir en plazo fijo');
     }
-  }
 };
 
 module.exports = lockedStake;

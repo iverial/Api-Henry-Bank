@@ -1,4 +1,3 @@
-
 const { conn } = require('../db.js');
 const { hashSync, compareSync } = require('bcrypt');
 
@@ -86,3 +85,4 @@ module.exports = {
     loadRole,
     createAdmin
 }
+
