@@ -51,6 +51,23 @@ module.exports = {
     }
   },
 
+  enableUser: async (req, res) => {
+    try {
+      const { email } = req.body
+      let user = await User.findOne({where: {email: email}})
+      if(!user){
+        res.status(404).send("el usuario no existe")
+      } else {
+        await user.update({
+       state: 'online'
+   })
+     res.send("cuenta habilitada con exito.")  
+   }
+    } catch (error) {
+       res.send(error.message) 
+    }
+  },
+
   disabledUser: async (req, res) => {
     try {
       const { email } = req.body
@@ -68,7 +85,7 @@ module.exports = {
     }
   },
   
-  addAdmin: async (req, res) => {
+  userToAdmin: async (req, res) => {
     try {
       const { email } = req.body
       let user = await User.findOne({where: {email: email}})
@@ -78,7 +95,24 @@ module.exports = {
         await user.update({
        role: 'admin'
    })
-     res.send("cuenta deshabilitada con exito.")  
+     res.send("cuenta convertida en admin con exito.")  
+   }
+    } catch (error) {
+       res.send(error.message) 
+    }
+  },
+
+  adminToUser: async (req, res) => {
+    try {
+      const { email } = req.body
+      let user = await User.findOne({where: {email: email}})
+      if(!user){
+        res.status(404).send("el usuario no existe")
+      } else {
+        await user.update({
+       role: 'user'
+   })
+     res.send("cuenta convertida en usuario correctamente.")  
    }
     } catch (error) {
        res.send(error.message) 
