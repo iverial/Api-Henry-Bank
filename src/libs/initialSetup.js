@@ -16,30 +16,30 @@ async function loadRole() {
 
 
 
-        queryInterface.bulkInsert('Users', [
-            {
-                id: "c709182f-1f00-40d1-8f9a-e2236025c2b4",
-                identity: 99582369,
-                image: 'https://cdn.pixabay.com/photo/2020/07/14/13/07/icon-5404125_1280.png',
-                name: "Enano",
-                lastName: "Loco",
-                gender: "indefinfido",
-                dateOfBirth: 123123,
-                address: "Calle Falsa 125",
-                city: "Mexico",
-                email: "enanoloco@henrry.com",
-                password: "pass123456",
-                role: "admin"
-            },
+        // queryInterface.bulkInsert('Users', [
+        //     {
+        //         id: "c709182f-1f00-40d1-8f9a-e2236025c2b4",
+        //         identity: 99582369,
+        //         image: 'https://cdn.pixabay.com/photo/2020/07/14/13/07/icon-5404125_1280.png',
+        //         name: "Enano",
+        //         lastName: "Loco",
+        //         gender: "indefinfido",
+        //         dateOfBirth: 123123,
+        //         address: "Calle Falsa 125",
+        //         city: "Mexico",
+        //         email: "enanoloco@henrry.com",
+        //         password: "pass123456",
+        //         role: "admin"
+        //     },
 
-        ], {}),
-        queryInterface.bulkInsert('User_Role', [
-            {
-                UserId: "c709182f-1f00-40d1-8f9a-e2236025c2b4",
-                RoleId: 1,
-            },
+        // ], {}),
+        // queryInterface.bulkInsert('User_Role', [
+        //     {
+        //         UserId: "c709182f-1f00-40d1-8f9a-e2236025c2b4",
+        //         RoleId: 1,
+        //     },
 
-        ], {}),
+        // ], {}),
 
     ]);
 };
