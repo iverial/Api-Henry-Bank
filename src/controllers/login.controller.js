@@ -26,7 +26,7 @@ const login = async (req, res) => {
       res.send({ msg: 'Login correcto', token: 'Bearer ' + token });
     }
   } catch (error) {
-    res.status(404).console.log(error.message);
+    console.log(error.message);
   }
 };
 

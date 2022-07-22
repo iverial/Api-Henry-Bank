@@ -35,7 +35,7 @@ module.exports = (sequelize) => {
         }
       },
       contacts: {
-        type: DataTypes.JSON,
+        type: DataTypes.STRING,
         allowNull: false,
         validate:{
           isEmail : true

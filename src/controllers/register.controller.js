@@ -1,5 +1,5 @@
 const { hashSync, compareSync } = require('bcrypt');
-const { User, Account, Nationality, SavingAccount } = require('../db.js');
+const { User, Account, Nationality, SavingAccount, Role } = require('../db.js');
 const jwt = require('jsonwebtoken');
 
 // ############################################################################################
@@ -34,6 +34,7 @@ const register = async (req, res) => {
       city,
       address,
       nationality,
+      role
     } = req.body;
 
     //Validate if password is strong (at least eight characters, one uppercase, one lowercase and one number)
@@ -74,6 +75,9 @@ const register = async (req, res) => {
         address,
       });
 
+      let dbRoles = await Role.findOne({ where: { role: 'user' } })
+      await user.addRole(dbRoles);
+
       const account = await Account.create({
         cbu: generateCBU(),
         alias: generateAlias(email),
@@ -107,8 +111,8 @@ const register = async (req, res) => {
       });
     } else res.send({ msg: 'Usuario ya existe' });
   } catch (error) {
-    res.status(404).console.log(error.message);
+    console.log(error.message);
   }
 };
 
-module.exports = register;
+module.exports = { register, generateCBU, generateAlias };
