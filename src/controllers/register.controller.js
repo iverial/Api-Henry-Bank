@@ -2,6 +2,9 @@ const { hashSync, compareSync } = require('bcrypt');
 const { User, Account, Nationality, SavingAccount, Role } = require('../db.js');
 const jwt = require('jsonwebtoken');
 
+const sgMail = require('@sendgrid/mail');
+sgMail.setApiKey(process.env.EMAIL_SEND_KEY);
+
 // ############################################################################################
 // CBU and Alias generator
 // ############################################################################################
@@ -34,7 +37,8 @@ const register = async (req, res) => {
       city,
       address,
       nationality,
-      role
+      role,
+      image,
     } = req.body;
 
     //Validate if password is strong (at least eight characters, one uppercase, one lowercase and one number)
@@ -73,9 +77,10 @@ const register = async (req, res) => {
         password,
         city,
         address,
+        image,
       });
 
-      let dbRoles = await Role.findOne({ where: { role: 'user' } })
+      let dbRoles = await Role.findOne({ where: { role: 'user' } });
       await user.addRole(dbRoles);
 
       const account = await Account.create({
@@ -103,6 +108,26 @@ const register = async (req, res) => {
       });
 
       account.setSavingAccount(savingAccount);
+
+      const msg = {
+        to: email,
+        from: 'henrybank.proyect@gmail.com',
+        subject: 'Nuevo Registro en HenryBank',
+        text:
+          'Hola, bienvenido a HenryBank! Gracias por su registro' +
+          name +
+          ' ' +
+          lastName +
+          '',
+        html:
+          '<strong>Hola, bienvenido a HenryBank! Gracias por su registro' +
+          name +
+          ' ' +
+          lastName +
+          '</strong>',
+      };
+
+      sgMail.send(msg);
 
       res.send({
         msg: 'Usuario y cuenta creados',

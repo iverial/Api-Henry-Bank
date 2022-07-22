@@ -1,11 +1,9 @@
-
 const { Router } = require('express');
 const passport = require('passport');
 const router = Router();
 
-
 //middlewares
-const { isAdmin } = require('../middlewares/authAdmin.js')
+const { isAdmin } = require('../middlewares/authAdmin.js');
 
 // Importar todos los routers;
 // Ejemplo: const authRouter = require('./auth.js');
@@ -19,7 +17,8 @@ const cryptoRouter = require('./crypto.router.js');
 const userEmail = require('./userEmail.router');
 const searchAccount = require('./searchAccount.router.js');
 const adminRouter = require('./admin.router.js');
-const forgetPassword = require('./forgetPassword.router.js')
+const forgetPassword = require('./forgetPassword.router.js');
+const contactRouter = require('./contact.router.js');
 
 //----------LOGIN REGISTER----------//
 router.use('/login', loginRouter);
@@ -49,7 +48,6 @@ router.use(
 
 router.use('/forgetPassword', forgetPassword);
 
-
 router.use('/userEmail', userEmail);
 
 router.use(
@@ -59,8 +57,15 @@ router.use(
 );
 //----------------------------------------------------------//
 
-//rutas de admin 
+router.use(
+  '/contacts',
+  passport.authenticate('jwt', { session: false }),
+  contactRouter
+);
 
+//----------------------------------------------------------//
+
+//rutas de admin
 
 router.use(
   '/admin',
