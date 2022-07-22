@@ -312,4 +312,20 @@ module.exports = {
       console.log(error.message);
     }
   },
+
+  userEditProfileImage: async (req, res) => {
+    try {
+      const user = await User.findOne({
+        where: { id: req.user.dataValues.id },
+      });
+
+      user.update({
+        image: req.body.image,
+      });
+
+      res.send('Imagen actualizada');
+    } catch (error) {
+      console.log(error.message);
+    }
+  },
 };
