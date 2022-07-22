@@ -1,4 +1,12 @@
-const { Account, SavingAccount, RegisterTransaction } = require('../db.js');
+const {
+  Account,
+  SavingAccount,
+  RegisterTransaction,
+  User,
+} = require('../db.js');
+
+const sgMail = require('@sendgrid/mail');
+sgMail.setApiKey(process.env.EMAIL_SEND_KEY);
 
 const {
   AccountDestiny,
@@ -55,6 +63,27 @@ async function tranfer(req, res) {
           amountDestiny: savingAccountDestiny.ars,
           amount: amount,
         });
+
+        const emailOrigin = await User.findOne({
+          where: { AccountId: accountOrigin.id },
+        });
+        const emailDestiny = await User.findOne({
+          where: { AccountId: AccountDestiny.Account.id },
+        });
+        const msgSend = {
+          to: emailOrigin.email,
+          from: 'henrybank.proyect@gmail.com',
+          subject: 'HenryBank Transferencia enviada',
+          text: `Hola ${emailOrigin.name}, has enviado ${amount} a ${emailDestiny.name} ${emailDestiny.lastName}`,
+        };
+        sgMail.send(msgSend);
+        const msgReceive = {
+          to: emailDestiny.email,
+          from: 'henrybank.proyect@gmail.com',
+          subject: 'HenryBank Transferencia recibida',
+          text: `Hola ${emailDestiny.name}, has recibido ${amount} de ${emailOrigin.name} ${emailOrigin.lastName}`,
+        };
+        sgMail.send(msgReceive);
 
         res.send({ msg: 'Transaccion Exitosa' });
       } else {
