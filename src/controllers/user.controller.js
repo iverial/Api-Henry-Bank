@@ -60,6 +60,8 @@ detailUser = async (detail) => {
     cbu: account.cbu,
     alias: account.alias,
     balance: Number(account.balance),
+    role: detail.role,
+    state: detail.state,
   };
   console.log(allDetail);
 
