@@ -4,7 +4,11 @@ const {
   SavingAccount,
   Crypto,
   RegisterCrypto,
+  User,
 } = require('../db.js');
+
+const sgMail = require('@sendgrid/mail');
+sgMail.setApiKey(process.env.EMAIL_SEND_KEY);
 
 const cryptoList = [
   'bitcoin',
@@ -71,8 +75,8 @@ const getCryptoPrices = async (crypto) => {
 //##############################################################
 
 const buyCrypto = async (amount, crypto, price, AccountId) => {
-  amount = Number(amount)
-  price = Number(price)
+  amount = Number(amount);
+  price = Number(price);
   const dolar = 250;
   const cryptoAmount = amount / dolar / price;
 
@@ -114,11 +118,26 @@ const buyCrypto = async (amount, crypto, price, AccountId) => {
     // ACA SE REGISTRA LA COMPRA DE CRYPTO
     await RegisterCrypto.create({
       account: AccountId,
-      transactionType: "Buy",
+      transactionType: 'Buy',
       nameCrypto: crypto,
       price: Number(price),
       amount: amount,
     });
+
+    const emailUser = await User.findOne({
+      where: { AccountId: account.id },
+    });
+
+    console.log(emailUser);
+
+    const msg = {
+      to: emailUser.email,
+      from: 'henrybank.proyect@gmail.com',
+      subject: 'HenryBank Compra de Crypto',
+      text: `Hola ${emailUser.name}, has comprado ${cryptoAmount} ${crypto} a un precio de ${price} dolares`,
+      html: `<h1>Hola ${emailUser.name}, has comprado ${cryptoAmount} ${crypto} a un precio de ${price} dolares</h1>`,
+    };
+    sgMail.send(msg);
     return { msg: 'Crypto Comprada' };
   } else {
     const cryptoNewInstance = await Crypto.create({
@@ -129,14 +148,29 @@ const buyCrypto = async (amount, crypto, price, AccountId) => {
 
     await savingAccount.addCrypto(cryptoNewInstance);
 
-    // ACA SE REGISTRA LA COMPRA DE CRYPTO 
+    // ACA SE REGISTRA LA COMPRA DE CRYPTO
     await RegisterCrypto.create({
       account: AccountId,
       nameCrypto: crypto,
-      transactionType: "Buy",
+      transactionType: 'Buy',
       price: Number(price),
       amount: amount,
     });
+
+    const emailUser = await User.findOne({
+      where: { AccountId: account.id },
+    });
+
+    console.log(emailUser);
+
+    const msg = {
+      to: emailUser.email,
+      from: 'henrybank.proyect@gmail.com',
+      subject: 'HenryBank Compra de Crypto',
+      text: `Hola ${emailUser.name}, has comprado ${cryptoAmount} ${crypto} a un precio de ${price} dolares`,
+      html: `<h1>Hola ${emailUser.name}, has comprado ${cryptoAmount} ${crypto} a un precio de ${price} dolares</h1>`,
+    };
+    sgMail.send(msg);
     return { msg: 'Nueva Crypto Comprada' };
   }
 };
@@ -145,8 +179,8 @@ const buyCrypto = async (amount, crypto, price, AccountId) => {
 // Sell Crypto
 //##############################################################
 const sellCrypto = async (amount, crypto, price, AccountId) => {
-  amount = Number(amount)
-  price = Number(price)
+  amount = Number(amount);
+  price = Number(price);
   const dolar = 250;
   const cryptoAmount = amount * dolar * price;
 
@@ -183,12 +217,24 @@ const sellCrypto = async (amount, crypto, price, AccountId) => {
 
     await RegisterCrypto.create({
       account: AccountId,
-      transactionType: "Sell",
+      transactionType: 'Sell',
       nameCrypto: crypto,
       price: Number(price),
       amount: amount,
     });
-    return { msg: 'Crypto Vendida' };
+
+    const emailUser = await User.findOne({
+      where: { AccountId: account.id },
+    });
+    const msg = {
+      to: emailUser.email,
+      from: 'henrybank.proyect@gmail.com',
+      subject: 'Venta de Crypto',
+      text: `Hola ${emailUser.name}, has vendido ${amount} ${crypto} a un precio de ${price} dolares`,
+      html: `<h1>Hola ${emailUser.name}, has vendido ${amount} ${crypto} a un precio de ${price} dolares</h1>`,
+    };
+    sgMail.send(msg);
+    return { msg: 'HenryBank Crypto Vendida' };
   } else {
     return { msg: 'No se encontro la crypto, corrobora datos' };
   }
@@ -222,7 +268,6 @@ const profileBalance = async (AccountId) => {
 };
 
 module.exports = {
-
   crypto: async (req, res) => {
     try {
       const response = await allCryptos();
@@ -240,9 +285,7 @@ module.exports = {
     } catch (error) {
       res.status(404).console.log(error.message);
     }
-  }
-  ,
-
+  },
   buyCrypto: async (req, res) => {
     try {
       const { amount, crypto, price } = req.body;
@@ -262,7 +305,7 @@ module.exports = {
       const resp = await sellCrypto(amount, crypto, price, AccountId);
       res.json(resp);
     } catch (error) {
-      res.status(404).console.log("error: error.message ");
+      res.status(404).console.log('error: error.message ');
     }
   },
 
