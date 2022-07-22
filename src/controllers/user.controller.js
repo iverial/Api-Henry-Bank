@@ -60,6 +60,8 @@ detailUser = async (detail) => {
     cbu: account.cbu,
     alias: account.alias,
     balance: Number(account.balance),
+    role: detail.role,
+    state: detail.state,
   };
   console.log(allDetail);
 
@@ -306,6 +308,22 @@ module.exports = {
     try {
       const movements = await userMovements(req.user.dataValues);
       res.send(movements);
+    } catch (error) {
+      console.log(error.message);
+    }
+  },
+
+  userEditProfileImage: async (req, res) => {
+    try {
+      const user = await User.findOne({
+        where: { id: req.user.dataValues.id },
+      });
+
+      user.update({
+        image: req.body.image,
+      });
+
+      res.send('Imagen actualizada');
     } catch (error) {
       console.log(error.message);
     }
