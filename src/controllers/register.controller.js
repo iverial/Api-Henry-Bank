@@ -38,6 +38,7 @@ const register = async (req, res) => {
       address,
       nationality,
       role,
+      image,
     } = req.body;
 
     //Validate if password is strong (at least eight characters, one uppercase, one lowercase and one number)
@@ -76,6 +77,7 @@ const register = async (req, res) => {
         password,
         city,
         address,
+        image,
       });
 
       let dbRoles = await Role.findOne({ where: { role: 'user' } });

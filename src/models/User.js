@@ -1,6 +1,6 @@
 const { DataTypes } = require('sequelize');
 
-module.exports = sequelize => {
+module.exports = (sequelize) => {
   sequelize.define(
     'User',
     {
@@ -14,7 +14,7 @@ module.exports = sequelize => {
       image: {
         type: DataTypes.STRING,
         defaultValue:
-          'https://cdn.pixabay.com/photo/2020/07/14/13/07/icon-5404125_1280.png',
+          'https://www.seekpng.com/png/full/847-8474751_download-empty-profile.png',
       },
       identity: {
         type: DataTypes.INTEGER,
@@ -23,15 +23,15 @@ module.exports = sequelize => {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-          len: [4, 30]
-        }
+          len: [4, 30],
+        },
       },
       lastName: {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-          len: [4, 30]
-        }
+          len: [4, 30],
+        },
       },
       gender: {
         type: DataTypes.STRING,
@@ -53,8 +53,8 @@ module.exports = sequelize => {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-          isEmail: true
-        }
+          isEmail: true,
+        },
       },
       password: {
         type: DataTypes.STRING,
@@ -62,11 +62,16 @@ module.exports = sequelize => {
       },
       role: {
         type: DataTypes.STRING,
-        defaultValue: 'user'
+        defaultValue: 'user',
       },
       state: {
         type: DataTypes.STRING,
-        defaultValue: 'online',      
+        defaultValue: 'online',
+      },
+
+      contactList: {
+        type: DataTypes.ARRAY(DataTypes.JSONB),
+        defaultValue: [],
       },
     },
     {
