@@ -77,7 +77,7 @@ const register = async (req, res) => {
         password,
         city,
         address,
-        image,
+        image: image || 'https://www.seekpng.com/png/full/847-8474751_download-empty-profile.png',
       });
 
       let dbRoles = await Role.findOne({ where: { role: 'user' } });

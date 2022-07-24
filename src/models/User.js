@@ -13,8 +13,6 @@ module.exports = (sequelize) => {
       },
       image: {
         type: DataTypes.STRING,
-        defaultValue:
-          'https://www.seekpng.com/png/full/847-8474751_download-empty-profile.png',
       },
       identity: {
         type: DataTypes.INTEGER,
