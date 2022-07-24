@@ -23,7 +23,7 @@ const { loadRole, createAdmin } = require('./src/libs/initialSetup')
 
 
 // Syncing all the models at once.
-conn.sync({ force: true }).then(() => {
+conn.sync({ force: false }).then(() => {
   server.listen(process.env.PORT, () => {
     loadRole();
     createAdmin();
