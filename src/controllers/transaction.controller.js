@@ -72,14 +72,14 @@ async function tranfer(req, res) {
         });
         const msgSend = {
           to: emailOrigin.email,
-          from: 'henrybank.proyect@gmail.com',
+          from: 'briangvazq@gmail.com',
           subject: 'HenryBank Transferencia enviada',
           text: `Hola ${emailOrigin.name}, has enviado ${amount} a ${emailDestiny.name} ${emailDestiny.lastName}`,
         };
         sgMail.send(msgSend);
         const msgReceive = {
           to: emailDestiny.email,
-          from: 'briangvazq@gmail.com',
+          from: 'henrybank.proyect@gmail.com',
           subject: 'HenryBank Transferencia recibida',
           text: `Hola ${emailDestiny.name}, has recibido ${amount} de ${emailOrigin.name} ${emailOrigin.lastName}`,
         };
