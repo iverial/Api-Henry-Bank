@@ -72,7 +72,7 @@ async function tranfer(req, res) {
         });
         const msgSend = {
           to: emailOrigin.email,
-          from: 'briangvazq@gmail.com',
+          from: 'henrybank.proyect@gmail.com',
           subject: 'HenryBank Transferencia enviada',
           text: `Hola ${emailOrigin.name}, has enviado ${amount} a ${emailDestiny.name} ${emailDestiny.lastName}`,
         };

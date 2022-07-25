@@ -20,7 +20,7 @@ const forgetPassword = async (req, res) => {
       });
       const msg = {
         to: email,
-        from: 'briangvazq@gmail.com',
+        from: 'henrybank.proyect@gmail.com',
         subject: 'Cambio de contraseña HenryBank',
         text: 'Su contraseña ha sido cambiada, si cree que es un error, por favor comuniquese con el administrador',
         html: '<strong>Su contraseña ha sido cambiada, si cree que es un error, por favor comuniquese con el administrador</strong>',
