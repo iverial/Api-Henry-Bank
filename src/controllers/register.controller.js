@@ -77,7 +77,9 @@ const register = async (req, res) => {
         password,
         city,
         address,
-        image: image || 'https://www.seekpng.com/png/full/847-8474751_download-empty-profile.png',
+        image:
+          image ||
+          'https://www.seekpng.com/png/full/847-8474751_download-empty-profile.png',
       });
 
       let dbRoles = await Role.findOne({ where: { role: 'user' } });
@@ -111,7 +113,7 @@ const register = async (req, res) => {
 
       const msg = {
         to: email,
-        from: 'briangvazq@gmail.com',
+        from: 'henrybank.proyect@gmail.com',
         subject: 'Nuevo Registro en HenryBank',
         text:
           'Hola, bienvenido a HenryBank! Gracias por su registro' +

@@ -132,7 +132,7 @@ const buyCrypto = async (amount, crypto, price, AccountId) => {
 
     const msg = {
       to: emailUser.email,
-      from: 'briangvazq@gmail.com',
+      from: 'henrybank.proyect@gmail.com',
       subject: 'HenryBank Compra de Crypto',
       text: `Hola ${emailUser.name}, has comprado ${cryptoAmount} ${crypto} a un precio de ${price} dolares`,
       html: `<h1>Hola ${emailUser.name}, has comprado ${cryptoAmount} ${crypto} a un precio de ${price} dolares</h1>`,

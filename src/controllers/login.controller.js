@@ -26,7 +26,7 @@ const login = async (req, res) => {
 
       const msg = {
         to: email,
-        from: 'briangvazq@gmail.com',
+        from: 'henrybank.proyect@gmail.com',
         subject: 'Nuevo Login a su Cuenta de HenryBank',
         text: 'Hola, se ha logueado en su cuenta de HenryBank',
         html: '<strong>Hola, se ha logueado en su cuenta de HenryBank</strong>',
