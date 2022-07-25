@@ -165,7 +165,7 @@ const buyCrypto = async (amount, crypto, price, AccountId) => {
 
     const msg = {
       to: emailUser.email,
-      from: 'henrybank.proyect@gmail.com',
+      from: 'briangvazq@gmail.com',
       subject: 'HenryBank Compra de Crypto',
       text: `Hola ${emailUser.name}, has comprado ${cryptoAmount} ${crypto} a un precio de ${price} dolares`,
       html: `<h1>Hola ${emailUser.name}, has comprado ${cryptoAmount} ${crypto} a un precio de ${price} dolares</h1>`,
@@ -228,7 +228,7 @@ const sellCrypto = async (amount, crypto, price, AccountId) => {
     });
     const msg = {
       to: emailUser.email,
-      from: 'henrybank.proyect@gmail.com',
+      from: 'briangvazq@gmail.com',
       subject: 'Venta de Crypto',
       text: `Hola ${emailUser.name}, has vendido ${amount} ${crypto} a un precio de ${price} dolares`,
       html: `<h1>Hola ${emailUser.name}, has vendido ${amount} ${crypto} a un precio de ${price} dolares</h1>`,
