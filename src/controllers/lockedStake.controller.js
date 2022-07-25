@@ -6,8 +6,8 @@ const {
   User,
 } = require('../db.js');
 
-const sgMail = require('@sendgrid/mail');
-sgMail.setApiKey(process.env.EMAIL_SEND_KEY);
+// const sgMail = require('@sendgrid/mail');
+// sgMail.setApiKey(process.env.EMAIL_SEND_KEY);
 
 const lockedStake = async (req, res) => {
   let { parking, roi, deposit } = req.body;
@@ -140,28 +140,28 @@ const lockedStake = async (req, res) => {
         where: { AccountId: accountOrigin.id },
       });
 
-      const msg = {
-        to: emailUser.email,
-        from: 'briangvazq@gmail.com',
-        subject: 'Nuevo plazo fijo creado HenryBank',
-        text:
-          'Hola, se ha creado un nuevo plazo fijo en HenryBank para el usuario ' +
-          emailUser.name +
-          ' ' +
-          emailUser.lastName +
-          ' por un monto de ' +
-          deposit +
-          ' ARS',
-        html:
-          '<strong>Hola, se ha creado un nuevo plazo fijo en HenryBank para el usuario ' +
-          emailUser.name +
-          ' ' +
-          emailUser.lastName +
-          ' por un monto de ' +
-          deposit +
-          ' ARS</strong>',
-      };
-      sgMail.send(msg);
+      // const msg = {
+      //   to: emailUser.email,
+      //   from: 'briangvazq@gmail.com',
+      //   subject: 'Nuevo plazo fijo creado HenryBank',
+      //   text:
+      //     'Hola, se ha creado un nuevo plazo fijo en HenryBank para el usuario ' +
+      //     emailUser.name +
+      //     ' ' +
+      //     emailUser.lastName +
+      //     ' por un monto de ' +
+      //     deposit +
+      //     ' ARS',
+      //   html:
+      //     '<strong>Hola, se ha creado un nuevo plazo fijo en HenryBank para el usuario ' +
+      //     emailUser.name +
+      //     ' ' +
+      //     emailUser.lastName +
+      //     ' por un monto de ' +
+      //     deposit +
+      //     ' ARS</strong>',
+      // };
+      // sgMail.send(msg);
 
       res.send('El plazo fijo se creo correctamente');
     }

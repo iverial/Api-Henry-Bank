@@ -226,14 +226,14 @@ const sellCrypto = async (amount, crypto, price, AccountId) => {
     const emailUser = await User.findOne({
       where: { AccountId: account.id },
     });
-    const msg = {
-      to: emailUser.email,
-      from: 'briangvazq@gmail.com',
-      subject: 'Venta de Crypto',
-      text: `Hola ${emailUser.name}, has vendido ${amount} ${crypto} a un precio de ${price} dolares`,
-      html: `<h1>Hola ${emailUser.name}, has vendido ${amount} ${crypto} a un precio de ${price} dolares</h1>`,
-    };
-    sgMail.send(msg);
+    // const msg = {
+    //   to: emailUser.email,
+    //   from: 'briangvazq@gmail.com',
+    //   subject: 'Venta de Crypto',
+    //   text: `Hola ${emailUser.name}, has vendido ${amount} ${crypto} a un precio de ${price} dolares`,
+    //   html: `<h1>Hola ${emailUser.name}, has vendido ${amount} ${crypto} a un precio de ${price} dolares</h1>`,
+    // };
+    // sgMail.send(msg);
     return { msg: 'HenryBank Crypto Vendida' };
   } else {
     return { msg: 'No se encontro la crypto, corrobora datos' };
