@@ -7,8 +7,8 @@ const {
   User,
 } = require('../db.js');
 
-const sgMail = require('@sendgrid/mail');
-sgMail.setApiKey(process.env.EMAIL_SEND_KEY);
+// const sgMail = require('@sendgrid/mail');
+// sgMail.setApiKey(process.env.EMAIL_SEND_KEY);
 
 const cryptoList = [
   'bitcoin',
@@ -130,14 +130,14 @@ const buyCrypto = async (amount, crypto, price, AccountId) => {
 
     console.log(emailUser);
 
-    const msg = {
-      to: emailUser.email,
-      from: 'henrybank.proyect@gmail.com',
-      subject: 'HenryBank Compra de Crypto',
-      text: `Hola ${emailUser.name}, has comprado ${cryptoAmount} ${crypto} a un precio de ${price} dolares`,
-      html: `<h1>Hola ${emailUser.name}, has comprado ${cryptoAmount} ${crypto} a un precio de ${price} dolares</h1>`,
-    };
-    sgMail.send(msg);
+    // const msg = {
+    //   to: emailUser.email,
+    //   from: 'henrybank.proyect@gmail.com',
+    //   subject: 'HenryBank Compra de Crypto',
+    //   text: `Hola ${emailUser.name}, has comprado ${cryptoAmount} ${crypto} a un precio de ${price} dolares`,
+    //   html: `<h1>Hola ${emailUser.name}, has comprado ${cryptoAmount} ${crypto} a un precio de ${price} dolares</h1>`,
+    // };
+    // sgMail.send(msg);
     return { msg: 'Crypto Comprada' };
   } else {
     const cryptoNewInstance = await Crypto.create({
@@ -163,14 +163,14 @@ const buyCrypto = async (amount, crypto, price, AccountId) => {
 
     console.log(emailUser);
 
-    const msg = {
-      to: emailUser.email,
-      from: 'briangvazq@gmail.com',
-      subject: 'HenryBank Compra de Crypto',
-      text: `Hola ${emailUser.name}, has comprado ${cryptoAmount} ${crypto} a un precio de ${price} dolares`,
-      html: `<h1>Hola ${emailUser.name}, has comprado ${cryptoAmount} ${crypto} a un precio de ${price} dolares</h1>`,
-    };
-    sgMail.send(msg);
+    // const msg = {
+    //   to: emailUser.email,
+    //   from: 'briangvazq@gmail.com',
+    //   subject: 'HenryBank Compra de Crypto',
+    //   text: `Hola ${emailUser.name}, has comprado ${cryptoAmount} ${crypto} a un precio de ${price} dolares`,
+    //   html: `<h1>Hola ${emailUser.name}, has comprado ${cryptoAmount} ${crypto} a un precio de ${price} dolares</h1>`,
+    // };
+    // sgMail.send(msg);
     return { msg: 'Nueva Crypto Comprada' };
   }
 };
