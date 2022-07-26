@@ -9,7 +9,7 @@ const createContact = async (req, res) => {
   const oldList = user.contactList;
 
   //Check if contact already exists
-  const contactExists = oldList.find((contact) => contact.id === id);
+  const contactExists = oldList.find(contact => contact.id === id);
   if (contactExists) {
     return res.status(400).json({
       message: 'Contact already exists',
@@ -40,7 +40,7 @@ const getContacts = async (req, res) => {
 
   const contacts = user.contactList;
 
-  if (!contacts.length) res.status(404).send('Contacts not found');
+  if (!contacts.length) res.status(200).send([]);
   else res.send(contacts);
 };
 
@@ -51,7 +51,7 @@ const deleteContact = async (req, res) => {
   const user = await User.findByPk(UserId);
 
   const oldList = user.contactList;
-  const newList = oldList.filter((contact) => contact.id !== deleteId);
+  const newList = oldList.filter(contact => contact.id !== deleteId);
   user.update({
     contactList: newList,
   });
