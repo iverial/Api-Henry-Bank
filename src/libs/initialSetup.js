@@ -17,15 +17,15 @@ async function loadRole() {
 
 
 async function createAdmin(
-    identity = "99582369",
-    name = "Enano",
-    lastName = "Loco",
-    dateOfBirth = 123124,
+    identity = "00000001",
+    name = "Henry",
+    lastName = "Bank",
+    dateOfBirth = 070422,
     gender = "indefinfido",
-    email = "enanoloco@henrry.com",
-    password = "Enanoloco123",
-    city = "Mexico",
-    address = "enanoloco@henrry.com",
+    email = "admin@henrry.com",
+    password = "Admin123456",
+    city = "Buenos Aires",
+    address = "Calle Falsa 123",
     nationality = "Argentina",
     role = "admin",
 ) {
