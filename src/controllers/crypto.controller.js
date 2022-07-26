@@ -273,7 +273,7 @@ module.exports = {
       const response = await allCryptos();
       res.status(200).json(response);
     } catch (error) {
-      res.status(404).console.log(error.message);
+      console.log(error.message);
     }
   },
 
@@ -283,7 +283,7 @@ module.exports = {
       const response = await profileBalance(AccountId);
       res.send(response);
     } catch (error) {
-      res.status(404).console.log(error.message);
+      console.log(error.message);
     }
   },
   buyCrypto: async (req, res) => {
@@ -293,7 +293,7 @@ module.exports = {
       const resp = await buyCrypto(amount, crypto, price, AccountId);
       res.json(resp);
     } catch (error) {
-      res.status(404).console.log(error.message);
+      console.log(error.message);
     }
   },
 
@@ -305,7 +305,7 @@ module.exports = {
       const resp = await sellCrypto(amount, crypto, price, AccountId);
       res.json(resp);
     } catch (error) {
-      res.status(404).console.log('error: error.message ');
+      console.log(error.message);
     }
   },
 
