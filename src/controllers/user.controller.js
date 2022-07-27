@@ -104,7 +104,7 @@ const userMovements = async (detail) => {
     let date = `${t.date.getDate()}/${
       t.date.getMonth() + 1
     }/${t.date.getFullYear()}`;
-    let hour = `${t.date.getHours()}:${t.date.getMinutes()}:${t.date.getSeconds()}`;
+    let hour = `${t.date.getHours()-3}:${t.date.getMinutes()}:${t.date.getSeconds()}`;
 
     return {
       idOp: t.id,
@@ -125,7 +125,7 @@ const userMovements = async (detail) => {
       let date = `${t.date.getDate()}/${
         t.date.getMonth() + 1
       }/${t.date.getFullYear()}`;
-      let hour = `${t.date.getHours()}:${t.date.getMinutes()}:${t.date.getSeconds()}`;
+      let hour = `${t.date.getHours()-3}:${t.date.getMinutes()}:${t.date.getSeconds()}`;
 
       return {
         idOp: t.id,
@@ -153,7 +153,7 @@ const userMovements = async (detail) => {
       let date = `${t.date.getDate()}/${
         t.date.getMonth() + 1
       }/${t.date.getFullYear()}`;
-      let hour = `${t.date.getHours()}:${t.date.getMinutes()}:${t.date.getSeconds()}`;
+      let hour = `${t.date.getHours()-3}:${t.date.getMinutes()}:${t.date.getSeconds()}`;
 
       return {
         idOp: t.id,
@@ -185,7 +185,7 @@ const userMovements = async (detail) => {
       let date = `${b.date.getDate()}/${
         b.date.getMonth() + 1
       }/${b.date.getFullYear()}`;
-      let hour = `${b.date.getHours()}:${b.date.getMinutes()}:${b.date.getSeconds()}`;
+      let hour = `${b.date.getHours()-3}:${b.date.getMinutes()}:${b.date.getSeconds()}`;
 
       return {
         id: b.id,
@@ -195,7 +195,7 @@ const userMovements = async (detail) => {
         amount: `-${b.amount}`,
         date: date,
         hour: hour,
-      };
+      }; 
     })
   );
 
@@ -210,7 +210,7 @@ const userMovements = async (detail) => {
       let date = `${b.date.getDate()}/${
         b.date.getMonth() + 1
       }/${b.date.getFullYear()}`;
-      let hour = `${b.date.getHours()}:${b.date.getMinutes()}:${b.date.getSeconds()}`;
+      let hour = `${b.date.getHours()-3}:${b.date.getMinutes()}:${b.date.getSeconds()}`;
 
       return {
         id: b.id,
