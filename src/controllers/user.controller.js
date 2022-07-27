@@ -34,8 +34,8 @@ const allUsers = async () => {
       email: u.email,
       cbu: u.Account.cbu,
       alias: u.Account.alias,
-      role: detail.role,
-      state: detail.state,
+      role: u.role,
+      state: u.state,
     };
   });
 
