@@ -37,7 +37,7 @@ const allUsers = async () => {
       role: u.role,
       state: u.state,
     };
-  });
+  })
 
   if (!users.length) throw new Error('Users not found');
 
