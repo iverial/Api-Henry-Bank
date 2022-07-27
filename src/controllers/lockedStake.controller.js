@@ -163,7 +163,7 @@ const lockedStake = async (req, res) => {
       // };
       // sgMail.send(msg);
 
-      res.send('El plazo fijo se creo correctamente');
+      res.send('El plazo fijo se creo correctamente')
     }
   } else if (savingAccountOrigin.ars < deposit) {
     res.send('No tienes el dinero suficiente para invertir en plazo fijo');
