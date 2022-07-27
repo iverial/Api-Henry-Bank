@@ -153,7 +153,7 @@ const userMovements = async (detail) => {
       let date = `${t.date.getDate()}/${
         t.date.getMonth() + 1
       }/${t.date.getFullYear()}`;
-      let hour = `${t.date.getHours()-3}:${t.date.getMinutes()}:${t.date.getSeconds()}`;
+      let hour = `${t.date.getHours()}:${t.date.getMinutes()}:${t.date.getSeconds()}`;
 
       return {
         idOp: t.id,
@@ -236,7 +236,7 @@ const userMovements = async (detail) => {
     let date = `${r.start_date.getDate()}/${
       r.start_date.getMonth() + 1
     }/${r.start_date.getFullYear()}`;
-    let hour = `${r.date.getHours()}:${r.date.getMinutes()}:${r.date.getSeconds()}`;
+    let hour = `${r.start_date.getHours()-3}:${r.start_date.getMinutes()}:${r.start_date.getSeconds()}`;
 
     return {
       idOp: r.id,
