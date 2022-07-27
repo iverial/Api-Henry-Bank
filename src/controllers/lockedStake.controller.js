@@ -10,7 +10,8 @@ const {
 // sgMail.setApiKey(process.env.EMAIL_SEND_KEY);
 
 const lockedStake = async (req, res) => {
-  let { parking, roi, deposit } = req.body;
+  try {
+    let { parking, roi, deposit } = req.body;
   const { AccountId } = req.user;
   const accountOrigin = await Account.findOne({ where: { id: AccountId } });
   const savingAccountOrigin = await SavingAccount.findOne({
@@ -74,6 +75,7 @@ const lockedStake = async (req, res) => {
           );
 
           let hour = new Date().getHours();
+          console.log(hour)
           let min = new Date().getMinutes();
           let minFinal = Number(min) + 5;
           if (Number(min) >= 55) {
@@ -104,6 +106,7 @@ const lockedStake = async (req, res) => {
       }
 
       let hour = new Date().getHours();
+      console.log(hour)
       let min = new Date().getMinutes();
       let minFinal = Number(min) + 5;
       if (Number(min) >= 55) {
@@ -168,6 +171,9 @@ const lockedStake = async (req, res) => {
   } else if (savingAccountOrigin.ars < deposit) {
     res.send('No tienes el dinero suficiente para invertir en plazo fijo');
   }
+  } catch (error) {
+    console.log(error)
+  };
 };
 
 module.exports = lockedStake;
