@@ -19,14 +19,13 @@
 //     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 const server = require('./src/app.js');
 const { conn } = require('./src/db.js');
-const { loadRole, createAdmin } = require('./src/libs/initialSetup')
-
+const { loadRole, createAdmin } = require('./src/libs/initialSetup');
 
 // Syncing all the models at once.
-conn.sync({ force: true }).then(() => {
+conn.sync({ force: false }).then(() => {
   server.listen(process.env.PORT, () => {
     loadRole();
     createAdmin();
-    console.log('%s listening at 3000',); // eslint-disable-line no-console
+    console.log('%s listening at 3000'); // eslint-disable-line no-console
   });
 });
