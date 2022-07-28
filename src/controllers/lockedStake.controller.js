@@ -145,7 +145,7 @@ const lockedStake = async (req, res) => {
 
       const msg = {
         to: emailUser.email,
-        from: 'briangvazq@gmail.com',
+        from: 'henrybank.proyect@gmail.com',
         subject: 'Nuevo plazo fijo creado HenryBank',
         text:
           'Hola, se ha creado un nuevo plazo fijo en HenryBank para el usuario ' +

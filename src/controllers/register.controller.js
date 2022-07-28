@@ -113,7 +113,7 @@ const register = async (req, res) => {
 
       const msg = {
         to: email,
-        from: 'briangvazq@gmail.com',
+        from: 'henrybank.proyect@gmail.com',
         subject: 'Nuevo Registro en HenryBank',
         text:
           'Hola, bienvenido a HenryBank! Gracias por su registro' +
