@@ -2,8 +2,8 @@ const { hashSync, compareSync } = require('bcrypt');
 const { User } = require('../db.js');
 const jwt = require('jsonwebtoken');
 
-// const sgMail = require('@sendgrid/mail');
-// sgMail.setApiKey(process.env.EMAIL_SEND_KEY);
+const sgMail = require('@sendgrid/mail');
+sgMail.setApiKey(process.env.EMAIL_SEND_KEY);
 
 require('dotenv').config();
 const SECRET = process.env.SECRET;
@@ -24,15 +24,15 @@ const login = async (req, res) => {
         password: user.password,
       };
 
-      // const msg = {
-      //   to: email,
-      //   from: 'briangvazq@gmail.com',
-      //   subject: 'Nuevo Login a su Cuenta de HenryBank',
-      //   text: 'Hola, se ha logueado en su cuenta de HenryBank',
-      //   html: '<strong>Hola, se ha logueado en su cuenta de HenryBank</strong>',
-      // };
+      const msg = {
+        to: email,
+        from: 'briangvazq@gmail.com',
+        subject: 'Nuevo Login a su Cuenta de HenryBank',
+        text: 'Hola, se ha logueado en su cuenta de HenryBank',
+        html: '<strong>Hola, se ha logueado en su cuenta de HenryBank</strong>',
+      };
 
-      // sgMail.send(msg);
+      sgMail.send(msg);
 
       const token = jwt.sign(payload, SECRET, { expiresIn: '2d' });
 

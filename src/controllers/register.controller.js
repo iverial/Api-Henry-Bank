@@ -2,8 +2,8 @@ const { hashSync, compareSync } = require('bcrypt');
 const { User, Account, Nationality, SavingAccount, Role } = require('../db.js');
 const jwt = require('jsonwebtoken');
 
-// const sgMail = require('@sendgrid/mail');
-// sgMail.setApiKey(process.env.EMAIL_SEND_KEY);
+const sgMail = require('@sendgrid/mail');
+sgMail.setApiKey(process.env.EMAIL_SEND_KEY);
 
 // ############################################################################################
 // CBU and Alias generator
@@ -111,25 +111,25 @@ const register = async (req, res) => {
 
       account.setSavingAccount(savingAccount);
 
-      // const msg = {
-      //   to: email,
-      //   from: 'briangvazq@gmail.com',
-      //   subject: 'Nuevo Registro en HenryBank',
-      //   text:
-      //     'Hola, bienvenido a HenryBank! Gracias por su registro' +
-      //     name +
-      //     ' ' +
-      //     lastName +
-      //     '',
-      //   html:
-      //     '<strong>Hola, bienvenido a HenryBank! Gracias por su registro' +
-      //     name +
-      //     ' ' +
-      //     lastName +
-      //     '</strong>',
-      // };
+      const msg = {
+        to: email,
+        from: 'briangvazq@gmail.com',
+        subject: 'Nuevo Registro en HenryBank',
+        text:
+          'Hola, bienvenido a HenryBank! Gracias por su registro' +
+          name +
+          ' ' +
+          lastName +
+          '',
+        html:
+          '<strong>Hola, bienvenido a HenryBank! Gracias por su registro' +
+          name +
+          ' ' +
+          lastName +
+          '</strong>',
+      };
 
-      // sgMail.send(msg);
+      sgMail.send(msg);
 
       res.send({
         msg: 'Usuario y cuenta creados',

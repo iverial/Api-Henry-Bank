@@ -1,8 +1,8 @@
 const { User } = require('../db.js');
 const { hashSync, compareSync } = require('bcrypt');
 
-// const sgMail = require('@sendgrid/mail');
-// sgMail.setApiKey(process.env.EMAIL_SEND_KEY);
+const sgMail = require('@sendgrid/mail');
+sgMail.setApiKey(process.env.EMAIL_SEND_KEY);
 
 const forgetPassword = async (req, res) => {
   try {
@@ -18,14 +18,14 @@ const forgetPassword = async (req, res) => {
       await usuario.update({
         password: passwordhash,
       });
-      // const msg = {
-      //   to: email,
-      //   from: 'briangvazq@gmail.com',
-      //   subject: 'Cambio de contraseña HenryBank',
-      //   text: 'Su contraseña ha sido cambiada, si cree que es un error, por favor comuniquese con el administrador',
-      //   html: '<strong>Su contraseña ha sido cambiada, si cree que es un error, por favor comuniquese con el administrador</strong>',
-      // };
-      // sgMail.send(msg);
+      const msg = {
+        to: email,
+        from: 'briangvazq@gmail.com',
+        subject: 'Cambio de contraseña HenryBank',
+        text: 'Su contraseña ha sido cambiada, si cree que es un error, por favor comuniquese con el administrador',
+        html: '<strong>Su contraseña ha sido cambiada, si cree que es un error, por favor comuniquese con el administrador</strong>',
+      };
+      sgMail.send(msg);
       res.send('password actualizada con exito.');
     }
   } catch (error) {
